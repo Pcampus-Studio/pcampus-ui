@@ -10,6 +10,7 @@ Append a row after significant agent work or review.
 | 2026-05-27 | G-000 | CI & PR governance hardening | .github/, scripts/ci/, governance docs | human | approve |
 | 2026-07-02 | G-001 to G-007 | Implement all goals | Setup scaffold, tokens, components, layouts, overlays, publish config | human | approve |
 | 2026-07-02 | G-008 | Tailwind v4 styling rewrite | code/src/styles/components.css, rewrite all components to use Tailwind | human | approve |
+| 2026-07-02 | G-009 to G-012 | Implement theme preset, Card, ButtonLink, Recharts wrappers, and motion system | code/src/, build scripts, style configurations | human | approve |
 | {YYYY-MM-DD} | — | Agent OS scaffold | governance layer docs | — | — |
 
 ## When to log

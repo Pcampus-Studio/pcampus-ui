@@ -25,6 +25,11 @@ export const tokens = {
   pcampusGray100: '#F3F2EF',
   pcampusGray50: '#F9F8F6',
 
+  // ═══ CHART PALETTE ═════════════════════════════════════════════
+  pcampusChartTeal: '#1A7A6E',
+  pcampusChartPurple: '#5A3F99',
+  pcampusChartAmber: '#C87533',
+
   // ═══ SEMANTIC COLOR ════════════════════════════════════════════
   pcampusColorPrimary: 'var(--pcampus-color-primary)',
   pcampusColorPrimaryHover: 'var(--pcampus-color-primary-hover)',
@@ -119,6 +124,8 @@ export const tokens = {
   pcampusEaseEnter: 'cubic-bezier(0.0, 0.0, 0.2, 1)',
   pcampusEaseExit: 'cubic-bezier(0.4, 0.0, 1, 1)',
   pcampusEaseLinear: 'linear',
+  pcampusDelayStagger: '40ms',
+  pcampusDelayReveal: '100ms',
 
   // ═══ LAYOUT ════════════════════════════════════════════════════
   pcampusLayoutNavHeight: '48px',

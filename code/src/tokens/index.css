@@ -19,6 +19,11 @@
   --pcampus-gray-100:  #F3F2EF;
   --pcampus-gray-50:   #F9F8F6;
 
+  /* ═══ CHART PALETTE ═════════════════════════════════════════════ */
+  --pcampus-chart-teal:   #1A7A6E;
+  --pcampus-chart-purple: #5A3F99;
+  --pcampus-chart-amber:  #C87533;
+
   /* ═══ SEMANTIC COLOR ════════════════════════════════════════════ */
   --pcampus-color-primary:         var(--pcampus-blue-600);
   --pcampus-color-primary-hover:   #4B7FD4;
@@ -99,6 +104,8 @@
   --pcampus-ease-enter:   cubic-bezier(0.0, 0.0, 0.2, 1);
   --pcampus-ease-exit:    cubic-bezier(0.4, 0.0, 1, 1);
   --pcampus-ease-linear:  linear;
+  --pcampus-delay-stagger:      40ms;
+  --pcampus-delay-reveal:      100ms;
 
   /* ═══ LAYOUT ════════════════════════════════════════════════════ */
   --pcampus-layout-nav-height:       48px;

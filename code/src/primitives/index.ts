@@ -61,3 +61,10 @@ export type { AlertProps } from './alert';
 
 export { EmptyState } from './empty-state';
 export type { EmptyStateProps } from './empty-state';
+
+// G-010: Card + ButtonLink
+export { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from './card';
+export type { CardProps } from './card';
+
+export { ButtonLink } from './button-link';
+export type { ButtonLinkProps } from './button-link';

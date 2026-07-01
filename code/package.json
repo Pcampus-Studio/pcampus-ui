@@ -1,6 +1,6 @@
 {
   "name": "@pcampus-studio/ui",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "description": "Shared component library and design system for the Pcampus ecosystem",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",
@@ -17,13 +17,15 @@
       "require": "./dist/cjs/index.js"
     },
     "./dist/esm/tokens/index.css": "./dist/esm/tokens/index.css",
-    "./dist/index.css": "./dist/index.css"
+    "./dist/index.css": "./dist/index.css",
+    "./dist/theme.css": "./dist/theme.css",
+    "./dist/motion.css": "./dist/motion.css"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build:css": "tailwindcss -i src/styles/components.css -o dist/index.css --minify",
+    "build:css": "tailwindcss -i src/styles/components.css -o dist/index.css --minify && tailwindcss -i src/styles/theme.css -o dist/theme.css --minify && tailwindcss -i src/motion/keyframes.css -o dist/motion.css --minify",
     "build": "tsup && npm run build:css",
     "dev": "tsup --watch",
     "lint": "eslint src --ext .ts,.tsx",
@@ -71,6 +73,7 @@
   "dependencies": {
     "@floating-ui/react": "^0.26.28",
     "clsx": "^2.1.1",
-    "focus-trap-react": "^10.3.1"
+    "focus-trap-react": "^10.3.1",
+    "recharts": "^2.12.7"
   }
 }

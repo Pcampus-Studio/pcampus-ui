@@ -14,10 +14,10 @@
 |G-006 | Layout shell — AppShell, SnapshotPanel, SplitPanel, ThemeProvider  | done | SHIP | G-003, G-005 |
 |G-007 | npm publish — GitHub Packages setup  | done | SHIP | G-001 |
 |G-008 | Tailwind v4 styling — match Cockpit visual output exactly  | done | SHIP | G-002–G-006 |
-|G-009 | theme.css — Tailwind preset for consuming services  | ready | EXECUTE | G-008 |
-|G-010 | Card + ButtonLink primitives  | ready | EXECUTE | G-008 |
-|G-011 | Charts tier — FunnelChart, KpiChart, LineChart, BarChart, SankeyChart  | ready | EXECUTE | G-008, G-009 |
-|G-012 | Motion system — tokens, keyframes, transitions, hooks  | ready | EXECUTE | G-008, G-009 |
+|G-009 | theme.css — Tailwind preset for consuming services  | done | SHIP | G-008 |
+|G-010 | Card + ButtonLink primitives  | done | SHIP | G-008 |
+|G-011 | Charts tier — FunnelChart, KpiChart, LineChart, BarChart, SankeyChart  | done | SHIP | G-008, G-009 |
+|G-012 | Motion system — tokens, keyframes, transitions, hooks  | done | SHIP | G-008, G-009 |
 
 ---
 
@@ -61,6 +61,10 @@ Alias in goal Plan tables: **Pcampus phase** = collaboration phase (DEFINE–SHI
 |G-006 | done | SHIP | G-003, G-005 | [goals/G-006.md](goals/G-006.md) |
 |G-007 | done | SHIP | G-001 | [goals/G-007.md](goals/G-007.md) |
 |G-008 | done | SHIP | G-002–G-006 | [goals/G-008.md](goals/G-008.md) |
+|G-009 | done | SHIP | G-008 | [goals/_archived/G-009.md](goals/_archived/G-009.md) |
+|G-010 | done | SHIP | G-008 | [goals/_archived/G-010.md](goals/_archived/G-010.md) |
+|G-011 | done | SHIP | G-008, G-009 | [goals/_archived/G-011.md](goals/_archived/G-011.md) |
+|G-012 | done | SHIP | G-008, G-009 | [goals/_archived/G-012.md](goals/_archived/G-012.md) |
 
 ## Archived
 
@@ -68,7 +72,10 @@ Completed goals: [`goals/_archived/`](goals/_archived/) · log: [changelog-goals
 
 | Goal | Title | Closed | File |
 |------|-------|--------|------|
-| *(none yet)* | — | — | — |
+| G-009 | theme.css — Tailwind preset for consuming services | 2026-07-02 | [goals/_archived/G-009.md](goals/_archived/G-009.md) |
+| G-010 | Card + ButtonLink primitives | 2026-07-02 | [goals/_archived/G-010.md](goals/_archived/G-010.md) |
+| G-011 | Charts tier — FunnelChart, KpiChart, LineChart, BarChart, SankeyChart, FunnelMiniChart | 2026-07-02 | [goals/_archived/G-011.md](goals/_archived/G-011.md) |
+| G-012 | Motion system — tokens, keyframes, transitions, hooks | 2026-07-02 | [goals/_archived/G-012.md](goals/_archived/G-012.md) |
 
 ## Create a goal
 

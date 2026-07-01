@@ -30,7 +30,7 @@ export const Spinner: React.FC<SpinnerProps> = ({ size = 'md', color = 'primary'
       fill="none"
       aria-label="Loading"
       role="status"
-      className={clsx('animate-spin shrink-0', className)}
+      className={clsx('animate-pcampus-spin shrink-0', className)}
     >
       <circle
         cx="12"

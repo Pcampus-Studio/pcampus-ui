@@ -10,3 +10,7 @@
 | G-006 | 2026-07-02 | — | Implemented Layout components: ThemeProvider, AppShell, SnapshotPanel, SplitPanel, Alert, EmptyState |
 | G-007 | 2026-07-02 | — | Configured npm publish to GitHub Packages and DEV-SETUP.md guide |
 | G-008 | 2026-07-02 | — | Rewrote all component styles from inline CSS to Tailwind v4 utilities and compiled dist/index.css |
+| G-009 | 2026-07-02 | — | Created theme.css Tailwind preset mapping tokens to standard utilities |
+| G-010 | 2026-07-02 | — | Promoted Card components and ButtonLink primitive from Cockpit |
+| G-011 | 2026-07-02 | — | Implemented Recharts-based chart components (Funnel, FunnelMini, KPI, Line, Bar, Sankey) |
+| G-012 | 2026-07-02 | — | Built motion system with central keyframes, useMotionPreference hook, and JS presets |

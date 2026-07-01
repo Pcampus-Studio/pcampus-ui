@@ -2,7 +2,11 @@ import { defineConfig } from 'tsup';
 
 export default defineConfig([
   {
-    entry: ['src/index.ts'],
+    entry: {
+      index: 'src/index.ts',
+      theme: 'src/styles/theme.css',
+      motion: 'src/motion/keyframes.css',
+    },
     format: ['esm'],
     dts: true,
     sourcemap: true,
@@ -16,7 +20,11 @@ export default defineConfig([
     },
   },
   {
-    entry: ['src/index.ts'],
+    entry: {
+      index: 'src/index.ts',
+      theme: 'src/styles/theme.css',
+      motion: 'src/motion/keyframes.css',
+    },
     format: ['cjs'],
     dts: false,
     sourcemap: true,
