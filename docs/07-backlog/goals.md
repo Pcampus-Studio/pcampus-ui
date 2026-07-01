@@ -6,12 +6,13 @@
 
 | Goal | Title | Status | Phase | Depends on |
 |------|-------|--------|-------|------------|
-| G-001 | Package scaffold — code/ setup | planned | PLAN | — |
-| G-002 | Tokens — CSS custom properties + JS exports | planned | PLAN | G-001 |
-| G-003 | Core primitives — Button, Badge, Avatar, Spinner, Skeleton | planned | PLAN | G-002 |
-| G-004 | Form controls — Input, Select, Checkbox, Radio, Toggle | planned | PLAN | G-002 |
-| G-005 | Overlays — Modal, Toast, Tooltip, Popover, Dropdown | planned | PLAN | G-003 |
-| G-006 | Layout shell — AppShell, SnapshotPanel, SplitPanel, ThemeProvider | planned | PLAN | G-003, G-005 |
+|G-001 | Package scaffold — code/ setup  | done | SHIP | — |
+|G-002 | Tokens — CSS custom properties + JS exports  | done | SHIP | G-001 |
+|G-003 | Core primitives — Button, Badge, Avatar, Spinner, Skeleton  | done | SHIP | G-002 |
+|G-004 | Form controls — Input, Select, Checkbox, Radio, Toggle  | done | SHIP | G-002 |
+|G-005 | Overlays — Modal, Toast, Tooltip, Popover, Dropdown  | done | SHIP | G-003 |
+|G-006 | Layout shell — AppShell, SnapshotPanel, SplitPanel, ThemeProvider  | done | SHIP | G-003, G-005 |
+|G-007 | npm publish — GitHub Packages setup  | done | SHIP | G-001 |
 
 ---
 
@@ -47,12 +48,13 @@ Alias in goal Plan tables: **Pcampus phase** = collaboration phase (DEFINE–SHI
 
 | Goal | Goal status | Collaboration phase | Depends on | File |
 |------|--------|-------|------------|------|
-| G-001 | planned | PLAN | — | [goals/G-001.md](goals/G-001.md) |
-| G-002 | planned | PLAN | G-001 | [goals/G-002.md](goals/G-002.md) |
-| G-003 | planned | PLAN | G-002 | [goals/G-003.md](goals/G-003.md) |
-| G-004 | planned | PLAN | G-002 | [goals/G-004.md](goals/G-004.md) |
-| G-005 | planned | PLAN | G-003 | [goals/G-005.md](goals/G-005.md) |
-| G-006 | planned | PLAN | G-003, G-005 | [goals/G-006.md](goals/G-006.md) |
+|G-001 | done | SHIP | — | [goals/G-001.md](goals/G-001.md) |
+|G-002 | done | SHIP | G-001 | [goals/G-002.md](goals/G-002.md) |
+|G-003 | done | SHIP | G-002 | [goals/G-003.md](goals/G-003.md) |
+|G-004 | done | SHIP | G-002 | [goals/G-004.md](goals/G-004.md) |
+|G-005 | done | SHIP | G-003 | [goals/G-005.md](goals/G-005.md) |
+|G-006 | done | SHIP | G-003, G-005 | [goals/G-006.md](goals/G-006.md) |
+|G-007 | done | SHIP | G-001 | [goals/G-007.md](goals/G-007.md) |
 
 ## Archived
 
