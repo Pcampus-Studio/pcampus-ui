@@ -1,0 +1,104 @@
+---
+description: LOCK SCOPE — pcampus-ui library authoring rules; prevents token naming drift and scope creep
+alwaysApply: true
+---
+
+# LOCK SCOPE — pcampus-ui Library Authoring Rules
+
+> This is the **source** library. These rules govern what goes IN, not what comes out.
+> Consumer rules: `Pcampus-Agent-OS/.cursor/rules/pcampus-ui-lock.mdc`
+
+## Namespace rule
+
+Every CSS custom property defined in this library MUST use the `--pcampus-` prefix.
+
+```css
+/* ✓ correct */
+--pcampus-color-primary: #3B7DD8;
+--pcampus-radius-md: 8px;
+
+/* ✗ forbidden */
+--color-primary: #3B7DD8;   /* no prefix — collides with consumer */
+--radius-md: 8px;
+```
+
+## Component authoring rules
+
+Every component MUST:
+- Accept and spread `className` prop (no style lock-in for consumers)
+- Use Tailwind utility classes via `className` — never `style={}` for visual properties
+- Use `var(--pcampus-color-*)` for any color not expressible as Tailwind utility
+- Use `clsx()` for conditional class composition
+
+```tsx
+// ✓ correct
+export function Button({ className, variant = 'primary', ...props }) {
+  return (
+    <button
+      className={clsx(variantClass[variant], 'rounded-pcampus-md px-4 py-2 transition-colors', className)}
+      {...props}
+    />
+  );
+}
+
+// ✗ forbidden
+export function Button({ variant, ...props }) {
+  return <button style={{ backgroundColor: '#3B7DD8' }} {...props} />;
+}
+```
+
+## Chart rules
+
+All chart components MUST:
+- Use `chartColors` from `src/charts/colors.ts` — which references `var(--pcampus-color-*)`
+- Wrap with `<ResponsiveContainer>` from recharts
+- Accept `color` / `colors` prop override for domain customization
+- Never hardcode `#hex` in chart source
+
+## Motion rules
+
+All animation MUST:
+- Define keyframes in `src/motion/keyframes.css` with `pcampus-` prefix: `@keyframes pcampus-shimmer`
+- Use `var(--pcampus-duration-*)` and `var(--pcampus-ease-*)` — no hardcoded `ms` or `cubic-bezier` in components
+- Export `useMotionPreference()` hook for accessibility
+- Map to Tailwind `animate-*` utilities via `@theme inline` in `theme.css`
+
+## Tier map — build in this order
+
+```
+1. Tokens       src/tokens/index.css            --pcampus-* vars
+2. Theme        src/styles/theme.css            @theme inline mapping
+3. Primitives   src/primitives/                 Button, Card, Input, ...
+4. Forms        src/forms/                      Select, Checkbox, ...
+5. Overlays     src/overlays/                   Modal, Toast, Tooltip, ...
+6. Layout       src/layout/                     AppShell, Sidebar, ...
+7. Charts       src/charts/                     FunnelChart, KpiChart, ...
+8. Motion       src/motion/                     keyframes, hooks, presets
+```
+
+Higher tiers consume lower tiers. Never import upward.
+
+## Two entry points — maintain both
+
+| File | Contains | For |
+|------|----------|-----|
+| `dist/index.css` | Pre-built utilities (full Tailwind output) | Services without Tailwind |
+| `dist/theme.css` | `@theme inline` only, no `@import "tailwindcss"` | Services with their own Tailwind v4 |
+
+Do NOT merge these. A service uses one or the other — never both.
+
+## Scope gate — two-service rule
+
+A component graduates to pcampus-ui when 2+ Pcampus services need it.
+Exception: foundational tokens, theme, and motion always belong here regardless of consumer count.
+
+## FORBIDDEN in this library
+
+| Forbidden | Why |
+|-----------|-----|
+| Consumer product names in code / vars / comments | Platform stays generic ([platform-consumer.mdc](platform-consumer.mdc)) |
+| `@import "tailwindcss"` inside `theme.css` | Consumer provides Tailwind — we must not double-import |
+| Hardcoded `#hex` anywhere except token definitions | Tokens are the only place colors live |
+| `style={}` in component JSX for visual properties | Blocks pseudo-state styling |
+| Framework-specific imports (Next.js `Link`, React Router) | Library must be framework-agnostic |
+| CSS variable names without `--pcampus-` prefix | Collision with consumer namespace |
