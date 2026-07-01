@@ -1,6 +1,6 @@
 {
   "name": "@pcampus-studio/ui",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Shared component library and design system for the Pcampus ecosystem",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",
@@ -35,6 +35,7 @@
     "build-storybook": "storybook build"
   },
   "peerDependencies": {
+    "motion": ">=11",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
@@ -61,6 +62,7 @@
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-hooks": "^5.0.0",
     "jsdom": "^25.0.1",
+    "motion": "^12.42.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "storybook": "^8.6.12",

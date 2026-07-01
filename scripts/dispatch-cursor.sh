@@ -90,7 +90,7 @@ START_TIME=$(date +%s)
 set +e
 (
   cd "${PROJECT_PATH}" &&
-  run_with_timeout "${TIMEOUT}" agent -p "${TASK}"
+  run_with_timeout "${TIMEOUT}" agent --print --trust -p "${TASK}"
 ) 2>&1 | tee "${LOG_FILE}"
 EXIT_CODE=${PIPESTATUS[0]}
 set -e

@@ -68,3 +68,6 @@ export type { CardProps } from './card';
 
 export { ButtonLink } from './button-link';
 export type { ButtonLinkProps } from './button-link';
+
+// G-013: ThemeToggle
+export { ThemeToggle } from './theme-toggle';
