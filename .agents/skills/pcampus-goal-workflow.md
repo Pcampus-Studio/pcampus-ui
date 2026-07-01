@@ -1,0 +1,1 @@
+../../.cursor/skills/pcampus-goal-workflow/SKILL.md

@@ -1,0 +1,21 @@
+---
+description: Pcampus coding standards and skill routing
+alwaysApply: true
+---
+
+# Guidelines
+
+- Follow [docs/03-architecture/design-spec.md](../../docs/03-architecture/design-spec.md) for Human + Agent framework.
+- Product discovery → `pcampus-discovery`; architecture impact → `pcampus-architecture-governance`; learning → `pcampus-learning-loop`; follow [knowledge-governance.md](../../docs/06-workflows/knowledge-governance.md).
+- API work → read `pcampus-rest-api` skill; update `docs/03-architecture/api/`.
+- Tests → `pcampus-testing` skill + goal test plan.
+- Before closing a goal → `pcampus-code-review` checklist.
+- Deploy / staging goals → `pcampus-deploy-staging` skill.
+- Upgrade OS in existing projects → `pcampus-upgrade-os` skill (Phase 2 after `upgrade-os.sh`).
+- **"ทำ G-xxx"** → TodoWrite only ([goal-execution.mdc](goal-execution.mdc)); **"เริ่ม step N"** → execute.
+- Schema changes → `pcampus-db-migration` skill + `docs/03-architecture/data/`.
+- Incidents → `pcampus-incident-response` skill; human owns comms and production actions.
+- Stack-specific rules: copy `.cursor/rules/stack-*.example.mdc` → `{stack}.mdc` at bootstrap.
+- Governance: [governance.mdc](governance.mdc) · Security: [security.mdc](security.mdc)
+
+Full skill catalog: [docs/04-agents/skills-library.md](../../docs/04-agents/skills-library.md).

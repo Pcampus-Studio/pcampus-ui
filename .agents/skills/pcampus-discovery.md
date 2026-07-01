@@ -1,0 +1,1 @@
+../../.cursor/skills/pcampus-discovery/SKILL.md

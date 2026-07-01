@@ -1,0 +1,1 @@
+../../.cursor/skills/pcampus-learning-loop/SKILL.md

@@ -1,0 +1,22 @@
+{
+  "version": "1.0.0",
+  "updated": "2026-06-27",
+  "recipes": [
+    {
+      "id": "REC-001",
+      "slug": "rest-api-update-v2",
+      "task_types": ["modify_existing_api", "add_api"],
+      "file": "REC-001-rest-api-update.yaml",
+      "profiles": ["backend-api"],
+      "skills": ["pcampus-rest-api"]
+    },
+    {
+      "id": "REC-004",
+      "slug": "acceptance-qa",
+      "task_types": ["qa_verify"],
+      "file": "REC-004-acceptance-qa.yaml",
+      "profiles": ["qa"],
+      "skills": ["pcampus-testing"]
+    }
+  ]
+}

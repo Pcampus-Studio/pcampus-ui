@@ -1,0 +1,96 @@
+---
+description: AI governance — approval gates, execution boundaries, goal status flow
+alwaysApply: true
+---
+
+# Governance
+
+Hard guardrails for human-approved AI delivery. See [docs/03-architecture/design-spec.md](../../docs/03-architecture/design-spec.md) §5 and §8 (terminology).
+
+**Knowledge governance** (artifacts, traceability, patterns): [knowledge-governance.md](../../docs/06-workflows/knowledge-governance.md) — owner/approver matrix; agents draft, humans accept PDR/ADR/promotions.
+
+## Approval gates — NO AI MAY (without explicit human approval)
+
+- Merge to `main` / `master` or any protected branch
+- Deploy to **production**
+- Modify infrastructure (IaC, cloud config, DNS, CDN, k8s manifests)
+- Run **destructive** database migrations (drop column/table, irreversible data change)
+- Change auth, security, or permission boundaries
+- Rotate secrets or write credentials to repo
+- Force-push, hard reset, or other irreversible git operations
+- Close a goal as `done` while status is not `approved`
+
+Agent may: implement in scope, run tests/lint, create PR, deploy **staging** only when goal explicitly includes SHIP and human approves.
+
+## Execution boundaries
+
+**Allowed (within active goal touch map):**
+
+- Edit files listed in goal **Touch map**
+- Write or update tests for goal behavior
+- Update goal docs, acceptance contract, API/data docs when goal requires
+- Create PR (human merges)
+
+**Forbidden:**
+
+- Unrelated refactors or repo-wide style sweeps
+- Edits outside goal **Touch map** (except linked docs above)
+- Reading or committing `.env`, credentials, tokens, or key files
+- Major dependency upgrades unless goal **In** scope says so
+- Picking or starting goals that are not `ready`
+- Implementing `draft` / `planned` goals
+- Declaring `done` without DoD + human approval
+
+## Goal status flow
+
+Only execute **`ready`** goals. Status flow (alias: goal state machine):
+
+```text
+draft → ready → in_progress → review → approved → done
+              ↘ blocked ↗
+```
+
+| Goal status | Agent may |
+|--------|-----------|
+| `draft` / `planned` | Edit goal spec only — **no application code** |
+| `ready` | Wait for human **"ทำ G-xxx"** — do not self-start |
+| `in_progress` | Implement within touch map |
+| `review` | Report diff; run code-review skill — **no new features** |
+| `blocked` | Stop — document blocker; wait for human |
+| `approved` | Commit if user asks; then mark `done` + changelog |
+| `done` | Do not re-implement unless new goal |
+
+## Context loading (before collaboration phase EXECUTE)
+
+Load in order:
+
+1. [AGENTS.md](../../AGENTS.md)
+2. [docs/00-project-snapshot.md](../../docs/00-project-snapshot.md) (if present)
+3. [docs/02-product/knowledge-map.json](../../docs/02-product/knowledge-map.json) (if filled — graph + coverage)
+4. [docs/02-product/knowledge-digest.md](../../docs/02-product/knowledge-digest.md) (if filled)
+5. [docs/02-product/assumptions.md](../../docs/02-product/assumptions.md) — block if open assumptions on critical path
+6. [docs/02-product/project-brief.md](../../docs/02-product/project-brief.md)
+7. Active goal in [docs/07-backlog/goals.md](../../docs/07-backlog/goals.md)
+8. Acceptance contract `docs/02-product/acceptance/G-xxx.md` (if present)
+9. Linked ADR / PDR in `docs/05-decisions/`
+10. Relevant API/data docs in `docs/03-architecture/`
+11. Matching `pcampus-*` skill for the task
+
+Stop and ask if context is missing or goal scope is ambiguous.
+
+## Operating modes
+
+Governance overlay — not collaboration phases. Canonical definitions: [design-spec.md](../../docs/03-architecture/design-spec.md) §8.
+
+| Operating mode | When | Rules |
+|------|------|-------|
+| **Normal** | Default | Full review; no hotfix without goal + review |
+| **Incident** | Human declares incident | [pcampus-incident-response](../skills/pcampus-incident-response/SKILL.md); human may authorize emergency path |
+
+## Audit
+
+After significant agent actions, human may append to [docs/07-backlog/changelog.md](../../docs/07-backlog/changelog.md).
+
+## CI enforcement
+
+GitHub Actions run [scripts/ci/governance-check.sh](../../scripts/ci/governance-check.sh) on PRs — see [github-governance.md](../../docs/06-workflows/github-governance.md). Humans enable protected branches; agents do not merge.

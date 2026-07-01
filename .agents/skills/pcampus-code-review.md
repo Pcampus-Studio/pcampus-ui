@@ -1,0 +1,1 @@
+../../.cursor/skills/pcampus-code-review/SKILL.md

@@ -1,0 +1,26 @@
+---
+description: "ทำ G-xxx" = TodoWrite step tracker in chat (fast, read-only)
+alwaysApply: true
+---
+
+# Goal execution — todos first
+
+See [pcampus-goal-workflow](../../.cursor/skills/pcampus-goal-workflow/SKILL.md) §0.2–§0.3. Terminology: [design-spec.md](../../docs/03-architecture/design-spec.md) §8.
+
+| User says | Agent must |
+|-----------|------------|
+| **"ทำ G-xxx"** | Read `goals/G-xxx.md` → **TodoWrite** → **≤3 lines** chat. **No code. No promote nag. No repo explore.** |
+| **"compile G-xxx"** / hydrate / resolve | Build `.bundle/` per [context-compiler.md](../../docs/03-architecture/context-compiler.md) — no code |
+| **"เริ่ม step N"** / **"ทำต่อ G-xxx"** | compileStep if missing → `step-N.md` + `action-step-N.yaml` → execute if `ready`/`in_progress` |
+| **"continue G-xxx"** | `shared-memory.yaml` + `delta.md` + changed files — no full bundle |
+| **"promote G-xxx ready"** | Goal docs only — no `code/` |
+| **"brief G-xxx"** | Full Plan briefing (optional) |
+
+Hard rules:
+
+- **"ทำ G-xxx"** → **TodoWrite is the UI** — do not paste long briefing tables
+- Read **one file** (`goals/G-xxx.md`) on **"ทำ G-xxx"** — not AGENTS.md, not `code/`, not broad search
+- **EXECUTE** follows **recipe checklist** — update `shared-memory.yaml` each turn (`EXECUTE` = collaboration phase, not bundle mode alone)
+- Never nag promote on **"ทำ G-xxx"** — block code only on **"เริ่ม step N"** when not `ready`
+- One `in_progress` todo at a time during execution
+- After step done: next stays `pending` until **"เริ่ม step N+1"**

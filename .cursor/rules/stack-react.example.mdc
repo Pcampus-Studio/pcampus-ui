@@ -1,0 +1,15 @@
+---
+description: React stack conventions — rename to {stack}.mdc at bootstrap and set alwaysApply
+alwaysApply: false
+---
+
+# React (example — enable at bootstrap)
+
+Copy to `.cursor/rules/react.mdc` (or your stack name) and set `alwaysApply: true`.
+
+- **Components:** presentational vs container boundaries — no API calls in leaf UI components unless project convention says otherwise
+- **State:** local state for UI-only; shared state via project store pattern (document in ADR or overview)
+- **Hooks:** custom hooks for reusable logic; one concern per hook
+- **Data fetching:** centralized client layer — not scattered `fetch` in pages
+- **Tests:** component/integration tests for user-visible behavior; avoid snapshot-only tests
+- **Accessibility:** semantic HTML and labels for forms — per product brief

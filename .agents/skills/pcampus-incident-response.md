@@ -1,0 +1,1 @@
+../../.cursor/skills/pcampus-incident-response/SKILL.md

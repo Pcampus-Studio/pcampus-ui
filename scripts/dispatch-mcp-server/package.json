@@ -1,0 +1,17 @@
+{
+  "name": "pcampus-dispatch-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP server that lets Claude dispatch Cursor agents via Pcampus Agent OS",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node --input-type=module <<< 'import \"./index.js\"; console.log(\"ok\")'"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

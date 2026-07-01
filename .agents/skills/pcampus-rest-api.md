@@ -1,0 +1,1 @@
+../../.cursor/skills/pcampus-rest-api/SKILL.md

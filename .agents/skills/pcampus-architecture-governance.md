@@ -1,0 +1,1 @@
+../../.cursor/skills/pcampus-architecture-governance/SKILL.md

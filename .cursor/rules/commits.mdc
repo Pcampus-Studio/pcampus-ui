@@ -1,0 +1,12 @@
+---
+description: One goal per commit
+alwaysApply: true
+---
+
+# Commits
+
+- One goal (`G-xxx`) per commit when possible.
+- Message format: `G-xxx: imperative description` (e.g. `G-004: add user auth service`).
+- Do not commit unless the user asked, or hooks require it after a successful run.
+- Do not combine multiple goals or unrelated file changes.
+- Update `docs/07-backlog/goals.md` and `docs/07-backlog/changelog-goals.md` when closing a goal.

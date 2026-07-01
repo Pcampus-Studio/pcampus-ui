@@ -1,0 +1,14 @@
+# Example parallel tasks file for dispatch-parallel.sh
+# ─────────────────────────────────────────────────────
+# Usage: ./scripts/dispatch-parallel.sh /path/to/project scripts/cursor-orchestrator/example-tasks.yaml
+#
+# Replace prompts with actual step references from your .bundle/G-xxx/
+
+tasks:
+  - id: "ui-agent"
+    prompt: "Read .bundle/G-001/step-2.md and implement the UI component as described. Follow .cursor/rules/. Do not modify API files."
+    model: "claude-sonnet-4-5"
+
+  - id: "api-agent"
+    prompt: "Read .bundle/G-001/step-2.md and implement the REST API endpoint as described. Follow .cursor/rules/. Do not modify UI files."
+    model: "claude-sonnet-4-5"

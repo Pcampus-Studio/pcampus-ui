@@ -1,0 +1,1 @@
+../../.cursor/skills/pcampus-db-migration/SKILL.md

@@ -1,0 +1,1 @@
+../../.cursor/skills/pcampus-upgrade-os/SKILL.md
