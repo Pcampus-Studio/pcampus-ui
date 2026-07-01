@@ -1,4 +1,4 @@
-# Antigravity agent index — Pcampus Agent OS
+# Antigravity agent index — @pcampus/ui
 
 Thin bridge for Google Antigravity. **Canonical sources:**
 
@@ -6,9 +6,15 @@ Thin bridge for Google Antigravity. **Canonical sources:**
 |------|---------|
 | [roles.md](roles.md) | Organizational constitution — 3 roles, boundaries, replaceable test |
 | [prompts.md](prompts.md) | Prompt patterns — role calibration, discovery, review, governance |
+| [product.md](product.md) | What lives here, consumers, 4-tier system, promotion process |
+| [design.md](design.md) | Visual foundation — token conventions, patterns, what stays in Cockpit |
+| [engineering.md](engineering.md) | Stack, component API standards, export rules, hard rules |
+| [review.md](review.md) | 6-stage publish gate before any component ships |
 | [../AGENTS.md](../AGENTS.md) | Shared entry — workflow, governance, skills catalog |
 | [../CLAUDE.md](../CLAUDE.md) | Claude role — PLAN / architecture / ADR |
 | [../.cursor/rules/](../.cursor/rules/) | Always-on constraints (read when planning) |
+| [../docs/01-vision.md](../docs/01-vision.md) | Why this library exists — north star |
+| [../docs/03-architecture/design-tokens.md](../docs/03-architecture/design-tokens.md) | Full `--pcampus-*` token reference — implement in `src/tokens/index.css` |
 | [../docs/](../docs/) | Specs, goals, ADR, architecture |
 
 ## Multi-agent roles
