@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
+import { clsx } from 'clsx';
 
 export interface ModalProps {
   open: boolean;
@@ -10,15 +11,16 @@ export interface ModalProps {
   closeOnBackdrop?: boolean;
   children: React.ReactNode;
   footer?: React.ReactNode;
+  className?: string;
 }
 
-const sizeMap: Record<NonNullable<ModalProps['size']>, string> = {
-  sm: '400px',
-  md: '560px',
-  lg: '720px',
-  xl: '900px',
-  full: '100%',
-};
+const sizeClass = {
+  sm: 'max-w-[400px]',
+  md: 'max-w-[560px]',
+  lg: 'max-w-[720px]',
+  xl: 'max-w-[900px]',
+  full: 'max-w-full h-full rounded-none',
+} as const;
 
 export const Modal: React.FC<ModalProps> = ({
   open,
@@ -29,11 +31,11 @@ export const Modal: React.FC<ModalProps> = ({
   closeOnBackdrop = true,
   children,
   footer,
+  className,
 }) => {
   const panelRef = useRef<HTMLDivElement>(null);
   const titleId = `modal-title-${Math.random().toString(36).slice(2, 7)}`;
 
-  // Focus trap
   useEffect(() => {
     if (!open) return;
 
@@ -69,135 +71,62 @@ export const Modal: React.FC<ModalProps> = ({
 
   if (!open) return null;
 
-  const backdropStyle: React.CSSProperties = {
-    position: 'fixed',
-    inset: 0,
-    background: 'rgba(0, 0, 0, 0.4)',
-    backdropFilter: 'var(--pcampus-backdrop-blur)',
-    zIndex: 'var(--pcampus-z-modal)' as unknown as number,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 'var(--pcampus-space-8)',
-    animation: `pcampus-fade-in var(--pcampus-duration-panel) var(--pcampus-ease-enter)`,
-  };
-
-  const panelStyle: React.CSSProperties = {
-    background: 'var(--pcampus-color-surface)',
-    borderRadius: 'var(--pcampus-radius-xl)',
-    boxShadow: 'var(--pcampus-shadow-modal)',
-    width: '100%',
-    maxWidth: size === 'full' ? '100%' : sizeMap[size],
-    maxHeight: size === 'full' ? '100%' : '90vh',
-    display: 'flex',
-    flexDirection: 'column',
-    animation: `pcampus-slide-up var(--pcampus-duration-panel) var(--pcampus-ease-enter)`,
-  };
-
   return ReactDOM.createPortal(
-    <>
-      <style>{`
-        @keyframes pcampus-fade-in { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes pcampus-slide-up { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-      `}</style>
+    <div
+      className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[var(--pcampus-z-modal)] flex items-center justify-center p-8 animate-pcampus-fade-in"
+      onClick={closeOnBackdrop ? onClose : undefined}
+    >
       <div
-        style={backdropStyle}
-        onClick={closeOnBackdrop ? onClose : undefined}
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={title ? titleId : undefined}
+        onClick={(e) => e.stopPropagation()}
+        className={clsx(
+          'bg-pcampus-canvas rounded-pcampus-lg shadow-lg w-full max-h-[90vh] flex flex-col animate-pcampus-slide-up font-pcampus-sans border border-pcampus-hairline',
+          sizeClass[size],
+          className
+        )}
       >
-        <div
-          ref={panelRef}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby={title ? titleId : undefined}
-          style={panelStyle}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {/* Header */}
-          {(title || description) && (
-            <div
-              style={{
-                padding: 'var(--pcampus-space-7) var(--pcampus-space-8)',
-                borderBottom: '1px solid var(--pcampus-color-border)',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'flex-start',
-                gap: 'var(--pcampus-space-4)',
-              }}
-            >
-              <div>
-                {title && (
-                  <h2
-                    id={titleId}
-                    style={{
-                      fontSize: 'var(--pcampus-text-xl)',
-                      fontWeight: 600,
-                      color: 'var(--pcampus-color-text)',
-                      margin: 0,
-                      fontFamily: 'var(--pcampus-font-sans)',
-                    }}
-                  >
-                    {title}
-                  </h2>
-                )}
-                {description && (
-                  <p
-                    style={{
-                      fontSize: 'var(--pcampus-text-base)',
-                      color: 'var(--pcampus-color-text-secondary)',
-                      margin: '4px 0 0',
-                      fontFamily: 'var(--pcampus-font-sans)',
-                    }}
-                  >
-                    {description}
-                  </p>
-                )}
-              </div>
-              <button
-                onClick={onClose}
-                aria-label="Close modal"
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  padding: 4,
-                  color: 'var(--pcampus-color-text-tertiary)',
-                  fontSize: 20,
-                  lineHeight: 1,
-                  flexShrink: 0,
-                }}
-              >
-                ×
-              </button>
+        {/* Header */}
+        {(title || description) && (
+          <div className="p-6 border-b border-pcampus-hairline flex justify-between items-start gap-4">
+            <div>
+              {title && (
+                <h2
+                  id={titleId}
+                  className="text-xl font-semibold text-pcampus-ink m-0"
+                >
+                  {title}
+                </h2>
+              )}
+              {description && (
+                <p className="text-base text-pcampus-body mt-1 mb-0">
+                  {description}
+                </p>
+              )}
             </div>
-          )}
-          {/* Body */}
-          <div
-            style={{
-              padding: 'var(--pcampus-space-8)',
-              overflowY: 'auto',
-              flex: 1,
-              fontFamily: 'var(--pcampus-font-sans)',
-            }}
-          >
-            {children}
+            <button
+              onClick={onClose}
+              aria-label="Close modal"
+              className="bg-none border-none cursor-pointer p-1 text-pcampus-muted text-xl leading-none shrink-0 hover:text-pcampus-ink transition-colors"
+            >
+              ×
+            </button>
           </div>
-          {/* Footer */}
-          {footer && (
-            <div
-              style={{
-                padding: 'var(--pcampus-space-6) var(--pcampus-space-8)',
-                borderTop: '1px solid var(--pcampus-color-border)',
-                display: 'flex',
-                justifyContent: 'flex-end',
-                gap: 'var(--pcampus-space-3)',
-              }}
-            >
-              {footer}
-            </div>
-          )}
+        )}
+        {/* Body */}
+        <div className="p-8 overflow-y-auto flex-1">
+          {children}
         </div>
+        {/* Footer */}
+        {footer && (
+          <div className="p-6 border-t border-pcampus-hairline flex justify-end gap-3">
+            {footer}
+          </div>
+        )}
       </div>
-    </>,
+    </div>,
     document.body
   );
 };

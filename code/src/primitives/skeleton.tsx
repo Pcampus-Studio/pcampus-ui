@@ -1,46 +1,47 @@
 import React from 'react';
+import { clsx } from 'clsx';
 
 export interface SkeletonProps {
   width?: string | number;
   height?: string | number;
   radius?: 'sm' | 'md' | 'full';
   lines?: number;
+  className?: string;
 }
 
-const radiusMap: Record<NonNullable<SkeletonProps['radius']>, string> = {
-  sm: 'var(--pcampus-radius-sm)',
-  md: 'var(--pcampus-radius-md)',
-  full: 'var(--pcampus-radius-full)',
-};
+const radiusClass = {
+  sm: 'rounded-pcampus-sm',
+  md: 'rounded-pcampus-md',
+  full: 'rounded-pcampus-full',
+} as const;
 
-const shimmerKeyframes = `
-@keyframes pcampus-shimmer {
-  0%   { background-position: -200% 0; }
-  100% { background-position:  200% 0; }
-}
-`;
-
-const SkeletonBlock: React.FC<{ width?: string | number; height?: string | number; radius?: SkeletonProps['radius'] }> = ({
+const SkeletonBlock: React.FC<{
+  width?: string | number;
+  height?: string | number;
+  radius?: SkeletonProps['radius'];
+  className?: string;
+}> = ({
   width = '100%',
   height = '16px',
   radius = 'md',
+  className,
 }) => {
-  const style: React.CSSProperties = {
-    display: 'block',
+  const customSizeStyle: React.CSSProperties = {
     width: typeof width === 'number' ? `${width}px` : width,
     height: typeof height === 'number' ? `${height}px` : height,
-    borderRadius: radiusMap[radius ?? 'md'],
-    background: `linear-gradient(
-      90deg,
-      var(--pcampus-color-surface-subtle) 0%,
-      var(--pcampus-color-border-subtle) 50%,
-      var(--pcampus-color-surface-subtle) 100%
-    )`,
-    backgroundSize: '200% 100%',
-    animation: `pcampus-shimmer var(--pcampus-duration-shimmer) var(--pcampus-ease-linear) infinite`,
   };
 
-  return <span style={style} aria-hidden="true" />;
+  return (
+    <span
+      aria-hidden="true"
+      style={customSizeStyle}
+      className={clsx(
+        'block bg-gradient-to-r from-pcampus-canvas-soft via-pcampus-hairline-strong to-pcampus-canvas-soft bg-[length:200%_100%] animate-pcampus-shimmer',
+        radiusClass[radius ?? 'md'],
+        className
+      )}
+    />
+  );
 };
 
 export const Skeleton: React.FC<SkeletonProps> = ({
@@ -48,25 +49,30 @@ export const Skeleton: React.FC<SkeletonProps> = ({
   height,
   radius = 'md',
   lines,
+  className,
 }) => {
+  if (lines && lines > 1) {
+    return (
+      <span className={clsx('flex flex-col gap-2', className)}>
+        {Array.from({ length: lines }).map((_, i) => (
+          <SkeletonBlock
+            key={i}
+            width={i === lines - 1 && lines > 1 ? '60%' : width}
+            height={height}
+            radius={radius}
+          />
+        ))}
+      </span>
+    );
+  }
+
   return (
-    <>
-      <style>{shimmerKeyframes}</style>
-      {lines && lines > 1 ? (
-        <span style={{ display: 'flex', flexDirection: 'column', gap: 'var(--pcampus-space-3)' }}>
-          {Array.from({ length: lines }).map((_, i) => (
-            <SkeletonBlock
-              key={i}
-              width={i === lines - 1 && lines > 1 ? '60%' : width}
-              height={height}
-              radius={radius}
-            />
-          ))}
-        </span>
-      ) : (
-        <SkeletonBlock width={width} height={height} radius={radius} />
-      )}
-    </>
+    <SkeletonBlock
+      width={width}
+      height={height}
+      radius={radius}
+      className={className}
+    />
   );
 };
 

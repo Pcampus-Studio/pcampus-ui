@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { clsx } from 'clsx';
 import {
   useFloating,
   useHover,
@@ -18,6 +19,7 @@ export interface TooltipProps {
   delay?: number;
   disabled?: boolean;
   children: React.ReactElement;
+  className?: string;
 }
 
 export const Tooltip: React.FC<TooltipProps> = ({
@@ -26,6 +28,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
   delay = 400,
   disabled = false,
   children,
+  className,
 }) => {
   const [open, setOpen] = useState(false);
   const arrowRef = useRef<HTMLSpanElement>(null);
@@ -66,20 +69,13 @@ export const Tooltip: React.FC<TooltipProps> = ({
             position: strategy,
             top: y ?? 0,
             left: x ?? 0,
-            background: 'var(--pcampus-gray-900)',
-            color: 'var(--pcampus-color-text-inverse)',
-            borderRadius: 'var(--pcampus-radius-sm)',
-            padding: '4px 8px',
-            fontSize: 'var(--pcampus-text-xs)',
-            fontFamily: 'var(--pcampus-font-sans)',
-            zIndex: 'var(--pcampus-z-overlay)' as unknown as number,
-            pointerEvents: 'none',
-            whiteSpace: 'nowrap',
-            animation: `pcampus-fade-in var(--pcampus-duration-fast) var(--pcampus-ease-enter)`,
           }}
+          className={clsx(
+            'bg-pcampus-ink text-pcampus-on-primary rounded-pcampus-sm px-2 py-1 text-xs font-pcampus-sans z-[var(--pcampus-z-overlay)] pointer-events-none whitespace-nowrap animate-pcampus-fade-in',
+            className
+          )}
           {...getFloatingProps()}
         >
-          <style>{`@keyframes pcampus-fade-in { from { opacity:0; } to { opacity:1; } }`}</style>
           {content}
         </div>
       )}

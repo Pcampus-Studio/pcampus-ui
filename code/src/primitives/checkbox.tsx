@@ -1,4 +1,5 @@
 import React, { useId, useRef, useEffect } from 'react';
+import { clsx } from 'clsx';
 
 export interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> {
   label?: string;
@@ -16,6 +17,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
       indeterminate = false,
       id: idProp,
       disabled,
+      className,
       ...props
     },
     forwardedRef
@@ -24,7 +26,6 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
     const id = idProp ?? generatedId;
     const innerRef = useRef<HTMLInputElement>(null);
 
-    // Merge refs
     const setRef = (el: HTMLInputElement | null) => {
       (innerRef as React.MutableRefObject<HTMLInputElement | null>).current = el;
       if (typeof forwardedRef === 'function') forwardedRef(el);
@@ -40,23 +41,13 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
     const hasError = Boolean(error);
 
     return (
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 'var(--pcampus-space-1)',
-          fontFamily: 'var(--pcampus-font-sans)',
-        }}
-      >
+      <div className={clsx('flex flex-col gap-1 font-pcampus-sans', className)}>
         <label
           htmlFor={id}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 'var(--pcampus-space-3)',
-            cursor: disabled ? 'not-allowed' : 'pointer',
-            opacity: disabled ? 0.6 : 1,
-          }}
+          className={clsx(
+            'inline-flex items-center gap-3',
+            disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'
+          )}
         >
           <input
             ref={setRef}
@@ -65,21 +56,18 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
             disabled={disabled}
             aria-invalid={hasError}
             aria-describedby={hasError ? `${id}-error` : undefined}
-            style={{
-              width: 16,
-              height: 16,
-              cursor: disabled ? 'not-allowed' : 'pointer',
-              accentColor: 'var(--pcampus-color-primary)',
-              flexShrink: 0,
-            }}
+            className={clsx(
+              'w-4 h-4 accent-pcampus-primary shrink-0',
+              disabled ? 'cursor-not-allowed' : 'cursor-pointer'
+            )}
             {...props}
           />
           {label && (
             <span
-              style={{
-                fontSize: 'var(--pcampus-text-base)',
-                color: disabled ? 'var(--pcampus-color-text-disabled)' : 'var(--pcampus-color-text)',
-              }}
+              className={clsx(
+                'text-base',
+                disabled ? 'text-pcampus-muted' : 'text-pcampus-ink'
+              )}
             >
               {label}
             </span>
@@ -89,15 +77,13 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
           <span
             id={`${id}-error`}
             role="alert"
-            style={{ fontSize: 'var(--pcampus-text-xs)', color: 'var(--pcampus-color-error)', paddingLeft: '24px' }}
+            className="text-xs text-pcampus-error pl-7"
           >
             {error}
           </span>
         )}
         {!error && hint && (
-          <span
-            style={{ fontSize: 'var(--pcampus-text-xs)', color: 'var(--pcampus-color-text-tertiary)', paddingLeft: '24px' }}
-          >
+          <span className="text-xs text-pcampus-muted pl-7">
             {hint}
           </span>
         )}

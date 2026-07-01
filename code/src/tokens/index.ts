@@ -27,6 +27,7 @@ export const tokens = {
 
   // ═══ SEMANTIC COLOR ════════════════════════════════════════════
   pcampusColorPrimary: 'var(--pcampus-color-primary)',
+  pcampusColorPrimaryHover: 'var(--pcampus-color-primary-hover)',
   pcampusColorPrimaryBright: 'var(--pcampus-color-primary-bright)',
   pcampusColorPrimarySubtle: 'var(--pcampus-color-primary-subtle)',
   pcampusColorPrimaryBorder: 'var(--pcampus-color-primary-border)',

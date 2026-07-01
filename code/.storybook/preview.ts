@@ -1,6 +1,6 @@
 import type { Preview, Decorator } from '@storybook/react';
 import React from 'react';
-import '../src/tokens/index.css';
+import '../src/styles/components.css';
 import { ThemeProvider } from '../src/layout/theme-provider';
 
 // Load Inter from Google Fonts

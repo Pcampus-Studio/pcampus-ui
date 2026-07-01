@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { clsx } from 'clsx';
 
 export interface NavItem {
   label: string;
@@ -18,6 +19,7 @@ export interface AppShellProps {
   sidebarCollapsed?: boolean;
   onSidebarToggle?: (collapsed: boolean) => void;
   children: React.ReactNode;
+  className?: string;
 }
 
 const NavLink: React.FC<{ item: NavItem; collapsed: boolean }> = ({ item, collapsed }) => {
@@ -29,42 +31,20 @@ const NavLink: React.FC<{ item: NavItem; collapsed: boolean }> = ({ item, collap
       onClick={item.onClick}
       title={collapsed ? item.label : undefined}
       aria-current={item.active ? 'page' : undefined}
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 'var(--pcampus-space-3)',
-        padding: collapsed ? 'var(--pcampus-space-3)' : 'var(--pcampus-space-3) var(--pcampus-space-5)',
-        borderRadius: 'var(--pcampus-radius-md)',
-        fontSize: 'var(--pcampus-text-base)',
-        fontFamily: 'var(--pcampus-font-sans)',
-        color: item.active ? 'var(--pcampus-color-primary)' : 'var(--pcampus-color-text-secondary)',
-        background: item.active ? 'var(--pcampus-color-primary-subtle)' : 'transparent',
-        border: 'none',
-        cursor: 'pointer',
-        textDecoration: 'none',
-        width: '100%',
-        textAlign: 'left',
-        transition: `all var(--pcampus-duration-fast) var(--pcampus-ease-default)`,
-        justifyContent: collapsed ? 'center' : 'flex-start',
-      }}
+      className={clsx(
+        'flex items-center gap-3 rounded-pcampus-md text-base font-pcampus-sans text-left transition-all duration-fast ease-default w-full cursor-pointer no-underline border-none',
+        collapsed ? 'p-3 justify-center' : 'py-3 px-5 justify-start',
+        item.active
+          ? 'text-pcampus-primary bg-[var(--pcampus-color-primary-subtle)]'
+          : 'text-pcampus-body bg-transparent hover:bg-pcampus-canvas-soft'
+      )}
     >
-      {item.icon && <span style={{ flexShrink: 0, width: 20, height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{item.icon}</span>}
+      {item.icon && <span className="shrink-0 w-5 h-5 flex items-center justify-center">{item.icon}</span>}
       {!collapsed && (
         <>
-          <span style={{ flex: 1 }}>{item.label}</span>
+          <span className="flex-1">{item.label}</span>
           {item.badge !== undefined && (
-            <span
-              style={{
-                background: 'var(--pcampus-color-primary)',
-                color: 'var(--pcampus-color-text-inverse)',
-                borderRadius: 'var(--pcampus-radius-full)',
-                fontSize: 'var(--pcampus-text-2xs)',
-                fontWeight: 600,
-                padding: '1px 6px',
-                minWidth: 18,
-                textAlign: 'center',
-              }}
-            >
+            <span className="bg-pcampus-primary text-pcampus-on-primary rounded-pcampus-full text-[10px] font-semibold px-1.5 py-[1px] min-w-[18px] text-center">
               {item.badge}
             </span>
           )}
@@ -82,6 +62,7 @@ export const AppShell: React.FC<AppShellProps> = ({
   sidebarCollapsed: controlledCollapsed,
   onSidebarToggle,
   children,
+  className,
 }) => {
   const [internalCollapsed, setInternalCollapsed] = useState(false);
   const isControlled = controlledCollapsed !== undefined;
@@ -93,72 +74,41 @@ export const AppShell: React.FC<AppShellProps> = ({
     onSidebarToggle?.(next);
   };
 
-  const sidebarWidth = collapsed
-    ? 'var(--pcampus-layout-sidebar-collapsed)'
-    : 'var(--pcampus-layout-sidebar-width)';
-
   return (
     <div
       style={{
-        display: 'grid',
         gridTemplateRows: 'var(--pcampus-layout-nav-height) 1fr',
-        gridTemplateColumns: `${sidebarWidth} 1fr`,
-        minHeight: '100vh',
-        fontFamily: 'var(--pcampus-font-sans)',
-        background: 'var(--pcampus-color-surface)',
-        transition: `grid-template-columns var(--pcampus-duration-panel) var(--pcampus-ease-default)`,
+        gridTemplateColumns: `${
+          collapsed ? 'var(--pcampus-layout-sidebar-collapsed)' : 'var(--pcampus-layout-sidebar-width)'
+        } 1fr`,
       }}
+      className={clsx(
+        'grid min-h-screen font-pcampus-sans bg-pcampus-canvas transition-[grid-template-columns] duration-panel ease-default',
+        className
+      )}
     >
       {/* Top bar */}
-      <header
-        style={{
-          gridColumn: '1 / -1',
-          height: 'var(--pcampus-layout-nav-height)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '0 var(--pcampus-space-6)',
-          borderBottom: '1px solid var(--pcampus-color-border)',
-          background: 'var(--pcampus-color-surface)',
-          position: 'sticky',
-          top: 0,
-          zIndex: 'var(--pcampus-z-sticky)' as unknown as number,
-          gap: 'var(--pcampus-space-4)',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--pcampus-space-3)' }}>
+      <header className="col-span-full h-[var(--pcampus-layout-nav-height)] flex items-center justify-between px-6 border-b border-pcampus-hairline bg-pcampus-canvas sticky top-0 z-[var(--pcampus-z-sticky)] gap-4">
+        <div className="flex items-center gap-3">
           <button
             onClick={toggle}
             aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-            style={{
-              background: 'none', border: 'none', cursor: 'pointer',
-              color: 'var(--pcampus-color-text-tertiary)', fontSize: 18, padding: 4,
-            }}
+            className="bg-transparent border-none cursor-pointer text-pcampus-muted text-lg p-1 hover:text-pcampus-ink transition-colors"
           >
             ☰
           </button>
           {logo}
-          <span style={{ fontWeight: 600, fontSize: 'var(--pcampus-text-md)', color: 'var(--pcampus-color-text)' }}>
+          <span className="fontWeight-600 text-base font-semibold text-pcampus-ink">
             {serviceName}
           </span>
         </div>
-        {topBarRight && <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--pcampus-space-3)' }}>{topBarRight}</div>}
+        {topBarRight && <div className="flex items-center gap-3">{topBarRight}</div>}
       </header>
 
       {/* Sidebar */}
       <nav
         aria-label="Main navigation"
-        style={{
-          borderRight: '1px solid var(--pcampus-color-border)',
-          overflowY: 'auto',
-          overflowX: 'hidden',
-          padding: 'var(--pcampus-space-4) var(--pcampus-space-3)',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 'var(--pcampus-space-1)',
-          background: 'var(--pcampus-color-surface)',
-          transition: `width var(--pcampus-duration-panel) var(--pcampus-ease-default)`,
-        }}
+        className="border-r border-pcampus-hairline overflow-y-auto overflow-x-hidden p-3 flex flex-col gap-1 bg-pcampus-canvas transition-[width] duration-panel ease-default"
       >
         {navItems.map((item, i) => (
           <NavLink key={i} item={item} collapsed={collapsed} />
@@ -166,13 +116,7 @@ export const AppShell: React.FC<AppShellProps> = ({
       </nav>
 
       {/* Content */}
-      <main
-        style={{
-          overflowY: 'auto',
-          padding: 'var(--pcampus-space-8)',
-          background: 'var(--pcampus-color-surface-subtle)',
-        }}
-      >
+      <main className="overflow-y-auto p-8 bg-pcampus-canvas-soft">
         {children}
       </main>
     </div>

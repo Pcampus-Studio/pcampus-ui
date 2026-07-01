@@ -1,4 +1,5 @@
 import React from 'react';
+import { clsx } from 'clsx';
 import { Skeleton } from '../primitives/skeleton';
 
 export interface SnapshotRow {
@@ -36,14 +37,10 @@ const CopyButton: React.FC<{ text: string }> = ({ text }) => {
     <button
       onClick={handleCopy}
       aria-label="Copy value"
-      style={{
-        background: 'none', border: 'none', cursor: 'pointer',
-        color: copied ? 'var(--pcampus-color-success)' : 'var(--pcampus-color-text-tertiary)',
-        fontSize: 12, padding: '0 2px',
-        opacity: 0,
-        transition: `opacity var(--pcampus-duration-fast) var(--pcampus-ease-default)`,
-      }}
-      className="pcampus-copy-btn"
+      className={clsx(
+        'bg-transparent border-none cursor-pointer text-xs px-[2px] transition-opacity duration-fast ease-default opacity-0 group-hover/row:opacity-100 focus-visible:opacity-100',
+        copied ? 'text-pcampus-success' : 'text-pcampus-muted'
+      )}
     >
       {copied ? '✓' : '⎘'}
     </button>
@@ -53,51 +50,33 @@ const CopyButton: React.FC<{ text: string }> = ({ text }) => {
 export const SnapshotPanel: React.FC<SnapshotPanelProps> = ({
   sections,
   loading = false,
+  className,
 }) => {
   return (
-    <div
-      style={{
-        fontFamily: 'var(--pcampus-font-sans)',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      <style>{`
-        .pcampus-snapshot-row:hover .pcampus-copy-btn { opacity: 1; }
-      `}</style>
+    <div className={clsx('font-pcampus-sans flex flex-col', className)}>
       {sections.map((section, si) => (
         <div
           key={si}
-          style={{
-            paddingTop: si > 0 ? 'var(--pcampus-space-6)' : 0,
-            marginTop: si > 0 ? 'var(--pcampus-space-6)' : 0,
-            borderTop: si > 0 ? '1px solid var(--pcampus-color-border)' : 'none',
-          }}
+          className={clsx(
+            si > 0 && 'pt-6 mt-6 border-t border-pcampus-hairline'
+          )}
         >
           {section.title && (
-            <div style={{ marginBottom: 'var(--pcampus-space-4)' }}>
-              <span
-                style={{
-                  fontSize: 'var(--pcampus-text-xs)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                  color: 'var(--pcampus-color-text-tertiary)',
-                  fontWeight: 600,
-                }}
-              >
+            <div className="mb-4">
+              <span className="text-[11px] uppercase tracking-[0.05em] text-pcampus-muted font-semibold">
                 {section.title}
               </span>
               {section.subtitle && (
-                <span style={{ display: 'block', fontSize: 'var(--pcampus-text-xs)', color: 'var(--pcampus-color-text-tertiary)' }}>
+                <span className="block text-[11px] text-pcampus-muted">
                   {section.subtitle}
                 </span>
               )}
             </div>
           )}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--pcampus-space-3)' }}>
+          <div className="flex flex-col gap-3">
             {loading
               ? Array.from({ length: 4 }).map((_, i) => (
-                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div key={i} className="flex justify-between items-center">
                     <Skeleton width="35%" height="12px" />
                     <Skeleton width="45%" height="12px" />
                   </div>
@@ -105,27 +84,12 @@ export const SnapshotPanel: React.FC<SnapshotPanelProps> = ({
               : section.rows.map((row, ri) => (
                   <div
                     key={ri}
-                    className="pcampus-snapshot-row"
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      gap: 'var(--pcampus-space-4)',
-                      fontSize: 'var(--pcampus-text-sm)',
-                    }}
+                    className="group/row flex justify-between items-center gap-4 text-sm"
                   >
-                    <span style={{ color: 'var(--pcampus-color-text-tertiary)', flexShrink: 0 }}>
+                    <span className="text-pcampus-muted shrink-0">
                       {row.label}
                     </span>
-                    <span
-                      style={{
-                        color: 'var(--pcampus-color-text)',
-                        textAlign: 'right',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 'var(--pcampus-space-1)',
-                      }}
-                    >
+                    <span className="text-pcampus-ink text-right flex items-center gap-1">
                       {row.value}
                       {row.copyable && <CopyButton text={String(row.value)} />}
                     </span>

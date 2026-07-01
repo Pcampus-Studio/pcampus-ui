@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { clsx } from 'clsx';
 import {
   useFloating,
   useClick,
@@ -18,6 +19,7 @@ export interface PopoverProps {
   content: React.ReactNode;
   placement?: 'top' | 'bottom' | 'left' | 'right';
   closeOnClickOutside?: boolean;
+  className?: string;
 }
 
 export const Popover: React.FC<PopoverProps> = ({
@@ -28,6 +30,7 @@ export const Popover: React.FC<PopoverProps> = ({
   content,
   placement = 'bottom',
   closeOnClickOutside = true,
+  className,
 }) => {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
   const isControlled = controlledOpen !== undefined;
@@ -64,18 +67,13 @@ export const Popover: React.FC<PopoverProps> = ({
             position: strategy,
             top: y ?? 0,
             left: x ?? 0,
-            background: 'var(--pcampus-color-surface)',
-            borderRadius: 'var(--pcampus-radius-lg)',
-            boxShadow: 'var(--pcampus-shadow-overlay)',
-            border: '1px solid var(--pcampus-color-border)',
-            zIndex: 'var(--pcampus-z-overlay)' as unknown as number,
-            padding: 'var(--pcampus-space-4)',
-            fontFamily: 'var(--pcampus-font-sans)',
-            animation: `pcampus-fade-in var(--pcampus-duration-fast) var(--pcampus-ease-enter)`,
           }}
+          className={clsx(
+            'bg-pcampus-canvas rounded-pcampus-lg shadow-lg border border-pcampus-hairline z-[var(--pcampus-z-overlay)] p-4 font-pcampus-sans animate-pcampus-fade-in',
+            className
+          )}
           {...getFloatingProps()}
         >
-          <style>{`@keyframes pcampus-fade-in { from { opacity:0; } to { opacity:1; } }`}</style>
           {content}
         </div>
       )}

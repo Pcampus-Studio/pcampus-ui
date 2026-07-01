@@ -9,3 +9,4 @@
 | G-005 | 2026-07-02 | — | Implemented Overlays: Modal, Dialog, Toast, Tooltip, Popover, Dropdown |
 | G-006 | 2026-07-02 | — | Implemented Layout components: ThemeProvider, AppShell, SnapshotPanel, SplitPanel, Alert, EmptyState |
 | G-007 | 2026-07-02 | — | Configured npm publish to GitHub Packages and DEV-SETUP.md guide |
+| G-008 | 2026-07-02 | — | Rewrote all component styles from inline CSS to Tailwind v4 utilities and compiled dist/index.css |

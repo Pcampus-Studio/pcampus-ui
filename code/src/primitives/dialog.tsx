@@ -12,6 +12,7 @@ export interface DialogProps {
   cancelLabel?: string;
   onConfirm: () => void;
   loading?: boolean;
+  className?: string;
 }
 
 export const Dialog: React.FC<DialogProps> = ({
@@ -24,6 +25,7 @@ export const Dialog: React.FC<DialogProps> = ({
   cancelLabel = 'Cancel',
   onConfirm,
   loading = false,
+  className,
 }) => {
   return (
     <Modal
@@ -32,6 +34,7 @@ export const Dialog: React.FC<DialogProps> = ({
       title={title}
       description={description}
       size="sm"
+      className={className}
       footer={
         <>
           <Button variant="ghost" onClick={onClose} disabled={loading}>
@@ -47,8 +50,7 @@ export const Dialog: React.FC<DialogProps> = ({
         </>
       }
     >
-      {/* body is empty — content comes from title/description */}
-      <span style={{ display: 'none' }} />
+      <span className="hidden" />
     </Modal>
   );
 };

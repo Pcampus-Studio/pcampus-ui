@@ -1,4 +1,5 @@
 import React, { useId } from 'react';
+import { clsx } from 'clsx';
 import { FormField } from './form-field';
 
 export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
@@ -10,11 +11,11 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   size?: 'sm' | 'md' | 'lg';
 }
 
-const sizeStyles: Record<NonNullable<InputProps['size']>, React.CSSProperties> = {
-  sm: { height: '32px', fontSize: 'var(--pcampus-text-sm)', padding: '0 var(--pcampus-space-4)' },
-  md: { height: '40px', fontSize: 'var(--pcampus-text-base)', padding: '0 var(--pcampus-space-5)' },
-  lg: { height: '48px', fontSize: 'var(--pcampus-text-md)', padding: '0 var(--pcampus-space-6)' },
-};
+const sizeClass = {
+  sm: 'h-8 px-2.5 text-xs',
+  md: 'h-10 px-3 text-sm',
+  lg: 'h-12 px-4 text-base',
+} as const;
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
@@ -26,7 +27,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       rightElement,
       size = 'md',
       id: idProp,
-      style,
+      className,
       disabled,
       ...props
     },
@@ -37,33 +38,10 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const errorId = `${id}-error`;
     const hasError = Boolean(error);
 
-    const inputStyle: React.CSSProperties = {
-      width: '100%',
-      borderRadius: 'var(--pcampus-radius-md)',
-      border: `1px solid ${hasError ? 'var(--pcampus-color-error)' : 'var(--pcampus-color-border-strong)'}`,
-      background: disabled ? 'var(--pcampus-color-surface-subtle)' : 'var(--pcampus-color-surface)',
-      color: disabled ? 'var(--pcampus-color-text-disabled)' : 'var(--pcampus-color-text)',
-      fontFamily: 'var(--pcampus-font-sans)',
-      outline: 'none',
-      transition: `border-color var(--pcampus-duration-fast) var(--pcampus-ease-default)`,
-      paddingLeft: leftElement ? 'var(--pcampus-space-9)' : undefined,
-      paddingRight: rightElement ? 'var(--pcampus-space-9)' : undefined,
-      ...sizeStyles[size],
-      ...style,
-    };
-
     const inputEl = (
-      <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+      <div className="relative flex items-center w-full">
         {leftElement && (
-          <span
-            style={{
-              position: 'absolute',
-              left: 'var(--pcampus-space-3)',
-              display: 'flex',
-              color: 'var(--pcampus-color-text-tertiary)',
-              pointerEvents: 'none',
-            }}
-          >
+          <span className="absolute left-3 inline-flex items-center justify-center text-pcampus-muted pointer-events-none">
             {leftElement}
           </span>
         )}
@@ -73,18 +51,20 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           disabled={disabled}
           aria-invalid={hasError}
           aria-describedby={hasError ? errorId : undefined}
-          style={inputStyle}
+          className={clsx(
+            'w-full rounded-pcampus-md border font-pcampus-sans outline-none transition-all',
+            hasError ? 'border-pcampus-error' : 'border-pcampus-hairline-strong',
+            disabled ? 'bg-pcampus-canvas-soft text-pcampus-muted opacity-50' : 'bg-pcampus-canvas text-pcampus-ink',
+            'focus:outline-none focus:ring-2 focus:ring-pcampus-primary focus:border-transparent',
+            sizeClass[size],
+            leftElement && 'pl-9',
+            rightElement && 'pr-9',
+            className
+          )}
           {...props}
         />
         {rightElement && (
-          <span
-            style={{
-              position: 'absolute',
-              right: 'var(--pcampus-space-3)',
-              display: 'flex',
-              color: 'var(--pcampus-color-text-tertiary)',
-            }}
-          >
+          <span className="absolute right-3 inline-flex items-center justify-center text-pcampus-muted">
             {rightElement}
           </span>
         )}

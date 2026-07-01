@@ -1,4 +1,5 @@
 import React, { useId } from 'react';
+import { clsx } from 'clsx';
 
 export interface RadioProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> {
   label?: string;
@@ -17,59 +18,47 @@ export interface RadioGroupProps {
   onChange?: (value: string) => void;
   options: RadioGroupOption[];
   orientation?: 'vertical' | 'horizontal';
+  className?: string;
 }
 
 export const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
-  ({ label, hint, id: idProp, disabled, ...props }, ref) => {
+  ({ label, hint, id: idProp, disabled, className, ...props }, ref) => {
     const generatedId = useId();
     const id = idProp ?? generatedId;
 
     return (
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 'var(--pcampus-space-1)',
-          fontFamily: 'var(--pcampus-font-sans)',
-        }}
-      >
+      <div className={clsx('flex flex-col gap-1 font-pcampus-sans', className)}>
         <label
           htmlFor={id}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 'var(--pcampus-space-3)',
-            cursor: disabled ? 'not-allowed' : 'pointer',
-            opacity: disabled ? 0.6 : 1,
-          }}
+          className={clsx(
+            'inline-flex items-center gap-3',
+            disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'
+          )}
         >
           <input
             ref={ref}
             type="radio"
             id={id}
             disabled={disabled}
-            style={{
-              width: 16,
-              height: 16,
-              cursor: disabled ? 'not-allowed' : 'pointer',
-              accentColor: 'var(--pcampus-color-primary)',
-              flexShrink: 0,
-            }}
+            className={clsx(
+              'w-4 h-4 accent-pcampus-primary shrink-0',
+              disabled ? 'cursor-not-allowed' : 'cursor-pointer'
+            )}
             {...props}
           />
           {label && (
             <span
-              style={{
-                fontSize: 'var(--pcampus-text-base)',
-                color: disabled ? 'var(--pcampus-color-text-disabled)' : 'var(--pcampus-color-text)',
-              }}
+              className={clsx(
+                'text-base',
+                disabled ? 'text-pcampus-muted' : 'text-pcampus-ink'
+              )}
             >
               {label}
             </span>
           )}
         </label>
         {hint && (
-          <span style={{ fontSize: 'var(--pcampus-text-xs)', color: 'var(--pcampus-color-text-tertiary)', paddingLeft: '24px' }}>
+          <span className="text-xs text-pcampus-muted pl-7">
             {hint}
           </span>
         )}
@@ -86,16 +75,16 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
   onChange,
   options,
   orientation = 'vertical',
+  className,
 }) => {
   return (
     <div
       role="radiogroup"
-      style={{
-        display: 'flex',
-        flexDirection: orientation === 'vertical' ? 'column' : 'row',
-        gap: orientation === 'vertical' ? 'var(--pcampus-space-3)' : 'var(--pcampus-space-6)',
-        flexWrap: 'wrap',
-      }}
+      className={clsx(
+        'flex flex-wrap',
+        orientation === 'vertical' ? 'flex-col gap-3' : 'flex-row gap-6',
+        className
+      )}
     >
       {options.map((opt) => (
         <Radio

@@ -1,4 +1,5 @@
 import React from 'react';
+import { clsx } from 'clsx';
 
 export interface FormFieldProps {
   label?: string;
@@ -7,6 +8,7 @@ export interface FormFieldProps {
   required?: boolean;
   htmlFor?: string;
   children: React.ReactNode;
+  className?: string;
 }
 
 export const FormField: React.FC<FormFieldProps> = ({
@@ -16,31 +18,18 @@ export const FormField: React.FC<FormFieldProps> = ({
   required,
   htmlFor,
   children,
+  className,
 }) => {
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 'var(--pcampus-space-2)',
-        fontFamily: 'var(--pcampus-font-sans)',
-      }}
-    >
+    <div className={clsx('flex flex-col gap-2 font-pcampus-sans', className)}>
       {label && (
         <label
           htmlFor={htmlFor}
-          style={{
-            fontSize: 'var(--pcampus-text-sm)',
-            fontWeight: 500,
-            color: 'var(--pcampus-color-text)',
-            display: 'flex',
-            gap: 'var(--pcampus-space-1)',
-            alignItems: 'center',
-          }}
+          className="text-sm font-medium text-pcampus-ink inline-flex gap-1 items-center"
         >
           {label}
           {required && (
-            <span style={{ color: 'var(--pcampus-color-error)' }}>*</span>
+            <span className="text-pcampus-error">*</span>
           )}
         </label>
       )}
@@ -48,21 +37,13 @@ export const FormField: React.FC<FormFieldProps> = ({
       {error && (
         <span
           role="alert"
-          style={{
-            fontSize: 'var(--pcampus-text-xs)',
-            color: 'var(--pcampus-color-error)',
-          }}
+          className="text-xs text-pcampus-error"
         >
           {error}
         </span>
       )}
       {!error && hint && (
-        <span
-          style={{
-            fontSize: 'var(--pcampus-text-xs)',
-            color: 'var(--pcampus-color-text-tertiary)',
-          }}
-        >
+        <span className="text-xs text-pcampus-muted">
           {hint}
         </span>
       )}

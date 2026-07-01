@@ -1,4 +1,5 @@
 import React, { useId } from 'react';
+import { clsx } from 'clsx';
 
 export interface ToggleProps {
   checked?: boolean;
@@ -7,6 +8,7 @@ export interface ToggleProps {
   size?: 'sm' | 'md';
   disabled?: boolean;
   id?: string;
+  className?: string;
 }
 
 export const Toggle: React.FC<ToggleProps> = ({
@@ -16,30 +18,20 @@ export const Toggle: React.FC<ToggleProps> = ({
   size = 'md',
   disabled = false,
   id: idProp,
+  className,
 }) => {
   const generatedId = useId();
   const id = idProp ?? generatedId;
 
-  const trackW = size === 'sm' ? 32 : 44;
-  const trackH = size === 'sm' ? 18 : 24;
-  const thumbSz = size === 'sm' ? 12 : 16;
-  const thumbOffset = size === 'sm' ? 3 : 4;
-  const thumbTranslate = trackW - thumbSz - thumbOffset * 2;
-
   return (
     <label
       htmlFor={id}
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: 'var(--pcampus-space-3)',
-        cursor: disabled ? 'not-allowed' : 'pointer',
-        opacity: disabled ? 0.6 : 1,
-        fontFamily: 'var(--pcampus-font-sans)',
-        userSelect: 'none',
-      }}
+      className={clsx(
+        'inline-flex items-center gap-3 select-none font-pcampus-sans',
+        disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer',
+        className
+      )}
     >
-      {/* visually hidden input */}
       <input
         id={id}
         type="checkbox"
@@ -48,50 +40,35 @@ export const Toggle: React.FC<ToggleProps> = ({
         disabled={disabled}
         onChange={(e) => onChange?.(e.target.checked)}
         aria-checked={checked}
-        style={{
-          position: 'absolute',
-          width: 1,
-          height: 1,
-          overflow: 'hidden',
-          clip: 'rect(0,0,0,0)',
-          whiteSpace: 'nowrap',
-        }}
+        className="sr-only"
       />
       {/* track */}
       <span
-        style={{
-          display: 'inline-block',
-          position: 'relative',
-          width: trackW,
-          height: trackH,
-          borderRadius: 'var(--pcampus-radius-full)',
-          background: checked ? 'var(--pcampus-color-primary)' : 'var(--pcampus-color-neutral)',
-          transition: `background var(--pcampus-duration-fast) var(--pcampus-ease-default)`,
-          flexShrink: 0,
-        }}
+        className={clsx(
+          'inline-block relative rounded-pcampus-full shrink-0 transition-colors [transition-duration:var(--pcampus-duration-fast)] [transition-timing-function:var(--pcampus-ease-default)]',
+          size === 'sm' ? 'w-8 h-[18px]' : 'w-11 h-6',
+          checked ? 'bg-pcampus-primary' : 'bg-[var(--pcampus-color-neutral)]'
+        )}
       >
         {/* thumb */}
         <span
-          style={{
-            position: 'absolute',
-            top: thumbOffset,
-            left: thumbOffset,
-            width: thumbSz,
-            height: thumbSz,
-            borderRadius: 'var(--pcampus-radius-full)',
-            background: 'white',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
-            transform: checked ? `translateX(${thumbTranslate}px)` : 'translateX(0)',
-            transition: `transform var(--pcampus-duration-fast) var(--pcampus-ease-default)`,
-          }}
+          className={clsx(
+            'absolute rounded-pcampus-full bg-white shadow-[0_1px_3px_rgba(0,0,0,0.2)] transition-transform [transition-duration:var(--pcampus-duration-fast)] [transition-timing-function:var(--pcampus-ease-default)]',
+            size === 'sm' ? 'w-3 h-3 top-[3px] left-[3px]' : 'w-4 h-4 top-1 left-1',
+            checked
+              ? size === 'sm'
+                ? 'translate-x-[14px]'
+                : 'translate-x-5'
+              : 'translate-x-0'
+          )}
         />
       </span>
       {label && (
         <span
-          style={{
-            fontSize: 'var(--pcampus-text-base)',
-            color: disabled ? 'var(--pcampus-color-text-disabled)' : 'var(--pcampus-color-text)',
-          }}
+          className={clsx(
+            'text-base',
+            disabled ? 'text-pcampus-muted' : 'text-pcampus-ink'
+          )}
         >
           {label}
         </span>

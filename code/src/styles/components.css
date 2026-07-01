@@ -1,0 +1,60 @@
+/* @pcampus-studio/ui — component stylesheet
+   Import this in consuming apps:  import '@pcampus-studio/ui/dist/index.css'
+   Do NOT import tokens/index.css separately — tokens are included here.
+*/
+
+@import "../tokens/index.css";
+@import "tailwindcss";
+
+@source "../src/**/*.{ts,tsx}";
+@source "../../stories/**/*.{ts,tsx}";
+
+
+@theme inline {
+  /* Colors */
+  --color-pcampus-primary:        var(--pcampus-color-primary);
+  --color-pcampus-primary-hover:  var(--pcampus-color-primary-hover);
+  --color-pcampus-on-primary:     var(--pcampus-color-text-inverse);
+  --color-pcampus-ink:            var(--pcampus-color-text);
+  --color-pcampus-body:           var(--pcampus-color-text-secondary);
+  --color-pcampus-muted:          var(--pcampus-color-text-tertiary);
+  --color-pcampus-canvas:         var(--pcampus-color-surface);
+  --color-pcampus-canvas-soft:    var(--pcampus-color-surface-subtle);
+  --color-pcampus-surface-card:   var(--pcampus-color-surface-card);
+  --color-pcampus-hairline:       var(--pcampus-color-border);
+  --color-pcampus-hairline-strong: var(--pcampus-color-border-strong);
+  --color-pcampus-error:          var(--pcampus-color-error);
+  --color-pcampus-success:        var(--pcampus-color-success);
+  --color-pcampus-warning:        var(--pcampus-color-warning);
+  /* Typography */
+  --font-pcampus-sans:            var(--pcampus-font-sans);
+  --font-pcampus-mono:            var(--pcampus-font-mono);
+  /* Border radius */
+  --radius-pcampus-xs:            var(--pcampus-radius-xs);
+  --radius-pcampus-sm:            var(--pcampus-radius-sm);
+  --radius-pcampus-md:            var(--pcampus-radius-md);
+  --radius-pcampus-lg:            var(--pcampus-radius-lg);
+  --radius-pcampus-full:          9999px;
+
+  --animate-pcampus-shimmer:      pcampus-shimmer 2s linear infinite;
+  --animate-pcampus-fade-in:      pcampus-fade-in var(--pcampus-duration-panel) var(--pcampus-ease-enter);
+  --animate-pcampus-slide-up:     pcampus-slide-up var(--pcampus-duration-panel) var(--pcampus-ease-enter);
+  --animate-pcampus-toast-in:     pcampus-toast-in var(--pcampus-duration-panel) var(--pcampus-ease-enter);
+
+  @keyframes pcampus-shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  @keyframes pcampus-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes pcampus-slide-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pcampus-toast-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}

@@ -13,6 +13,7 @@
 |G-005 | Overlays — Modal, Toast, Tooltip, Popover, Dropdown  | done | SHIP | G-003 |
 |G-006 | Layout shell — AppShell, SnapshotPanel, SplitPanel, ThemeProvider  | done | SHIP | G-003, G-005 |
 |G-007 | npm publish — GitHub Packages setup  | done | SHIP | G-001 |
+|G-008 | Tailwind v4 styling — match Cockpit visual output exactly  | ready | EXECUTE | G-002–G-006 |
 
 ---
 
@@ -55,6 +56,7 @@ Alias in goal Plan tables: **Pcampus phase** = collaboration phase (DEFINE–SHI
 |G-005 | done | SHIP | G-003 | [goals/G-005.md](goals/G-005.md) |
 |G-006 | done | SHIP | G-003, G-005 | [goals/G-006.md](goals/G-006.md) |
 |G-007 | done | SHIP | G-001 | [goals/G-007.md](goals/G-007.md) |
+|G-008 | done | SHIP | G-002–G-006 | [goals/G-008.md](goals/G-008.md) |
 
 ## Archived
 

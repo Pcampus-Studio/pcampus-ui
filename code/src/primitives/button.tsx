@@ -1,4 +1,5 @@
 import React from 'react';
+import { clsx } from 'clsx';
 import { Spinner } from './spinner';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -9,49 +10,18 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   rightIcon?: React.ReactNode;
 }
 
-const sizeStyles: Record<NonNullable<ButtonProps['size']>, React.CSSProperties> = {
-  sm: {
-    fontSize: 'var(--pcampus-text-sm)',
-    padding: '0 var(--pcampus-space-4)',
-    height: '32px',
-    gap: 'var(--pcampus-space-1)',
-  },
-  md: {
-    fontSize: 'var(--pcampus-text-base)',
-    padding: '0 var(--pcampus-space-6)',
-    height: '40px',
-    gap: 'var(--pcampus-space-2)',
-  },
-  lg: {
-    fontSize: 'var(--pcampus-text-md)',
-    padding: '0 var(--pcampus-space-7)',
-    height: '48px',
-    gap: 'var(--pcampus-space-2)',
-  },
-};
+const variantClass = {
+  primary:     'bg-pcampus-primary text-pcampus-on-primary hover:bg-pcampus-primary-hover disabled:opacity-60',
+  secondary:   'border border-pcampus-hairline-strong bg-pcampus-canvas text-pcampus-ink hover:bg-pcampus-canvas-soft disabled:opacity-60',
+  ghost:       'text-pcampus-body hover:bg-pcampus-canvas-soft disabled:opacity-60',
+  destructive: 'bg-pcampus-error text-pcampus-on-primary hover:opacity-90 disabled:opacity-60',
+} as const;
 
-const variantStyles: Record<NonNullable<ButtonProps['variant']>, React.CSSProperties> = {
-  primary: {
-    background: 'var(--pcampus-color-primary)',
-    color: 'var(--pcampus-color-text-inverse)',
-    border: 'none',
-  },
-  secondary: {
-    background: 'transparent',
-    color: 'var(--pcampus-color-primary)',
-    border: '1px solid var(--pcampus-color-primary-border)',
-  },
-  ghost: {
-    background: 'transparent',
-    color: 'var(--pcampus-color-text-secondary)',
-    border: 'none',
-  },
-  destructive: {
-    background: 'var(--pcampus-color-error)',
-    color: 'var(--pcampus-color-text-inverse)',
-    border: 'none',
-  },
-};
+const sizeClass = {
+  sm: 'h-8 px-4 text-sm gap-1',
+  md: 'h-10 px-6 text-base gap-2',
+  lg: 'h-12 px-7 text-lg gap-2',
+} as const;
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -63,36 +33,26 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       rightIcon,
       children,
       disabled,
-      style,
+      className,
       ...props
     },
     ref
   ) => {
     const isDisabled = disabled || loading;
 
-    const baseStyle: React.CSSProperties = {
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: 'var(--pcampus-radius-md)',
-      fontFamily: 'var(--pcampus-font-sans)',
-      fontWeight: 500,
-      cursor: isDisabled ? 'not-allowed' : 'pointer',
-      opacity: isDisabled ? 0.6 : 1,
-      transition: `all var(--pcampus-duration-fast) var(--pcampus-ease-default)`,
-      outline: 'none',
-      lineHeight: 1,
-      whiteSpace: 'nowrap',
-      ...variantStyles[variant],
-      ...sizeStyles[size],
-      ...style,
-    };
-
     return (
       <button
         ref={ref}
         disabled={isDisabled}
-        style={baseStyle}
+        className={clsx(
+          'inline-flex items-center justify-center rounded-pcampus-md font-pcampus-sans font-medium',
+          'cursor-pointer transition-all outline-none whitespace-nowrap',
+          'focus-visible:ring-2 focus-visible:ring-pcampus-primary focus-visible:ring-offset-1',
+          variantClass[variant],
+          sizeClass[size],
+          isDisabled && 'cursor-not-allowed',
+          className
+        )}
         {...props}
       >
         {loading ? (

@@ -21,6 +21,7 @@
 
   /* ═══ SEMANTIC COLOR ════════════════════════════════════════════ */
   --pcampus-color-primary:         var(--pcampus-blue-600);
+  --pcampus-color-primary-hover:   #4B7FD4;
   --pcampus-color-primary-bright:  var(--pcampus-blue-400);
   --pcampus-color-primary-subtle:  var(--pcampus-blue-100);
   --pcampus-color-primary-border:  var(--pcampus-blue-300);

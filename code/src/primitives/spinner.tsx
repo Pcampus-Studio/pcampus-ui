@@ -1,8 +1,10 @@
 import React from 'react';
+import { clsx } from 'clsx';
 
 export interface SpinnerProps {
   size?: 'sm' | 'md' | 'lg';
   color?: 'primary' | 'white' | 'neutral';
+  className?: string;
 }
 
 const sizeMap: Record<NonNullable<SpinnerProps['size']>, number> = {
@@ -11,15 +13,14 @@ const sizeMap: Record<NonNullable<SpinnerProps['size']>, number> = {
   lg: 28,
 };
 
-const colorMap: Record<NonNullable<SpinnerProps['color']>, string> = {
-  primary: 'var(--pcampus-color-primary)',
-  white: 'var(--pcampus-color-text-inverse)',
-  neutral: 'var(--pcampus-color-neutral)',
-};
+const strokeClass = {
+  primary: 'stroke-[var(--pcampus-color-primary)]',
+  white: 'stroke-[var(--pcampus-color-text-inverse)]',
+  neutral: 'stroke-[var(--pcampus-color-neutral)]',
+} as const;
 
-export const Spinner: React.FC<SpinnerProps> = ({ size = 'md', color = 'primary' }) => {
+export const Spinner: React.FC<SpinnerProps> = ({ size = 'md', color = 'primary', className }) => {
   const px = sizeMap[size];
-  const stroke = colorMap[color];
 
   return (
     <svg
@@ -29,25 +30,13 @@ export const Spinner: React.FC<SpinnerProps> = ({ size = 'md', color = 'primary'
       fill="none"
       aria-label="Loading"
       role="status"
-      style={{
-        animation: `pcampus-spin var(--pcampus-duration-base) var(--pcampus-ease-linear) infinite`,
-        flexShrink: 0,
-      }}
+      className={clsx('animate-spin shrink-0', className)}
     >
-      <style>{`
-        @keyframes pcampus-spin {
-          from { transform: rotate(0deg); }
-          to   { transform: rotate(360deg); }
-        }
-      `}</style>
       <circle
         cx="12"
         cy="12"
         r="10"
-        stroke={stroke}
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeDasharray="40 20"
+        className={clsx('stroke-[2.5px] [stroke-linecap:round] [stroke-dasharray:40_20]', strokeClass[color])}
       />
     </svg>
   );

@@ -1,4 +1,5 @@
 import React, { useId } from 'react';
+import { clsx } from 'clsx';
 import { FormField } from './form-field';
 
 export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -8,6 +9,13 @@ export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextArea
   resize?: 'none' | 'vertical' | 'horizontal' | 'both';
   rows?: number;
 }
+
+const resizeClass = {
+  none: 'resize-none',
+  vertical: 'resize-y',
+  horizontal: 'resize-x',
+  both: 'resize',
+} as const;
 
 export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
@@ -19,7 +27,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       rows = 4,
       id: idProp,
       disabled,
-      style,
+      className,
       ...props
     },
     ref
@@ -27,22 +35,6 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     const generatedId = useId();
     const id = idProp ?? generatedId;
     const hasError = Boolean(error);
-
-    const textareaStyle: React.CSSProperties = {
-      width: '100%',
-      borderRadius: 'var(--pcampus-radius-md)',
-      border: `1px solid ${hasError ? 'var(--pcampus-color-error)' : 'var(--pcampus-color-border-strong)'}`,
-      background: disabled ? 'var(--pcampus-color-surface-subtle)' : 'var(--pcampus-color-surface)',
-      color: disabled ? 'var(--pcampus-color-text-disabled)' : 'var(--pcampus-color-text)',
-      fontFamily: 'var(--pcampus-font-sans)',
-      fontSize: 'var(--pcampus-text-base)',
-      padding: 'var(--pcampus-space-4) var(--pcampus-space-5)',
-      outline: 'none',
-      resize,
-      transition: `border-color var(--pcampus-duration-fast) var(--pcampus-ease-default)`,
-      lineHeight: 'var(--pcampus-leading-base)',
-      ...style,
-    };
 
     const textareaEl = (
       <textarea
@@ -52,7 +44,14 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         disabled={disabled}
         aria-invalid={hasError}
         aria-describedby={hasError ? `${id}-error` : undefined}
-        style={textareaStyle}
+        className={clsx(
+          'w-full rounded-pcampus-md border font-pcampus-sans text-sm p-3 outline-none transition-all',
+          hasError ? 'border-pcampus-error' : 'border-pcampus-hairline-strong',
+          disabled ? 'bg-pcampus-canvas-soft text-pcampus-muted opacity-50' : 'bg-pcampus-canvas text-pcampus-ink',
+          'focus:outline-none focus:ring-2 focus:ring-pcampus-primary focus:border-transparent',
+          resizeClass[resize],
+          className
+        )}
         {...props}
       />
     );

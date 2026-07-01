@@ -1,25 +1,20 @@
 import React from 'react';
+import { clsx } from 'clsx';
 
 export interface AvatarProps {
   src?: string;
   name?: string;
   size?: 'xs' | 'sm' | 'md' | 'lg';
   shape?: 'circle' | 'square';
+  className?: string;
 }
 
-const sizeMap: Record<NonNullable<AvatarProps['size']>, number> = {
-  xs: 24,
-  sm: 32,
-  md: 40,
-  lg: 56,
-};
-
-const fontSizeMap: Record<NonNullable<AvatarProps['size']>, string> = {
-  xs: 'var(--pcampus-text-2xs)',
-  sm: 'var(--pcampus-text-xs)',
-  md: 'var(--pcampus-text-sm)',
-  lg: 'var(--pcampus-text-base)',
-};
+const sizeClass = {
+  xs: 'w-6 h-6 text-[10px]',
+  sm: 'w-8 h-8 text-[11px]',
+  md: 'w-10 h-10 text-[12px]',
+  lg: 'w-14 h-14 text-base',
+} as const;
 
 function getInitials(name: string): string {
   const words = name.trim().split(/\s+/);
@@ -33,31 +28,24 @@ export const Avatar: React.FC<AvatarProps> = ({
   name,
   size = 'md',
   shape = 'circle',
+  className,
 }) => {
-  const px = sizeMap[size];
-  const borderRadius = shape === 'circle' ? 'var(--pcampus-radius-full)' : 'var(--pcampus-radius-md)';
+  const borderRadiusClass = shape === 'circle' ? 'rounded-pcampus-full' : 'rounded-pcampus-md';
 
-  const baseStyle: React.CSSProperties = {
-    width: px,
-    height: px,
-    borderRadius,
-    flexShrink: 0,
-    overflow: 'hidden',
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontFamily: 'var(--pcampus-font-sans)',
-    fontWeight: 600,
-    fontSize: fontSizeMap[size],
-  };
+  const avatarClasses = clsx(
+    'shrink-0 overflow-hidden inline-flex items-center justify-center font-pcampus-sans font-semibold',
+    sizeClass[size],
+    borderRadiusClass,
+    className
+  );
 
   if (src) {
     return (
-      <span style={baseStyle}>
+      <span className={avatarClasses}>
         <img
           src={src}
           alt={name ?? ''}
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          className="w-full h-full object-cover"
         />
       </span>
     );
@@ -67,12 +55,10 @@ export const Avatar: React.FC<AvatarProps> = ({
 
   return (
     <span
-      style={{
-        ...baseStyle,
-        background: 'var(--pcampus-color-primary-subtle)',
-        color: 'var(--pcampus-color-primary)',
-        userSelect: 'none',
-      }}
+      className={clsx(
+        avatarClasses,
+        'bg-[var(--pcampus-color-primary-subtle)] text-pcampus-primary select-none'
+      )}
       aria-label={name ?? 'avatar'}
     >
       {initials}
