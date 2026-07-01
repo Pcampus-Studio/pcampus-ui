@@ -13,7 +13,11 @@
 |G-005 | Overlays — Modal, Toast, Tooltip, Popover, Dropdown  | done | SHIP | G-003 |
 |G-006 | Layout shell — AppShell, SnapshotPanel, SplitPanel, ThemeProvider  | done | SHIP | G-003, G-005 |
 |G-007 | npm publish — GitHub Packages setup  | done | SHIP | G-001 |
-|G-008 | Tailwind v4 styling — match Cockpit visual output exactly  | ready | EXECUTE | G-002–G-006 |
+|G-008 | Tailwind v4 styling — match Cockpit visual output exactly  | done | SHIP | G-002–G-006 |
+|G-009 | theme.css — Tailwind preset for consuming services  | ready | EXECUTE | G-008 |
+|G-010 | Card + ButtonLink primitives  | ready | EXECUTE | G-008 |
+|G-011 | Charts tier — FunnelChart, KpiChart, LineChart, BarChart, SankeyChart  | ready | EXECUTE | G-008, G-009 |
+|G-012 | Motion system — tokens, keyframes, transitions, hooks  | ready | EXECUTE | G-008, G-009 |
 
 ---
 

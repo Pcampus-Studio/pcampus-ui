@@ -187,3 +187,69 @@ import { Button } from '@pcampus/ui/primitives/button';
 - **Story before merge** — no component ships without a Storybook story
 - **Test before merge** — no component ships without a unit test
 - **Semver on breaking changes** — any prop rename or removal is a major version bump
+
+---
+
+## LOCK SCOPE — Single Source of Visual Truth (Anti-Context-Drift)
+
+> **This section is IMMUTABLE.** No agent may modify it without a human-approved ADR.  
+> Violation = immediate halt; ask human before proceeding.
+
+### What this library IS
+
+`@pcampus-studio/ui` is the **one and only** source of visual design for the entire Pcampus ecosystem. Every color, spacing, radius, shadow, animation, typography, chart, and motion pattern that appears in **any** Pcampus service **must** originate here.
+
+### FORBIDDEN — never do these
+
+| ✗ Forbidden | Why |
+|-------------|-----|
+| CSS vars outside `--pcampus-*` namespace | Token drift |
+| Hardcoding any hex (`#2952A3`), rgb, or hsl value | Bypasses token system |
+| Hardcoding pixel/ms values that have a token (`14px`, `6px`, `220ms`) | Same |
+| `style={{ color: '...', fontSize: '...' }}` for visual properties | Blocks hover/focus/disabled states |
+| Component names with domain vocabulary (`StoryButton`, `EvidencePanel`) | Library is generic |
+| Importing `next/link`, `react-router`, or any framework module | Must be framework-agnostic |
+| Shipping component without `className` passthrough | Breaks consumer extensibility |
+| Chart that duplicates Recharts primitive without pcampus token wrapper | Use Recharts as base |
+| Motion/animation with hardcoded timing values | Use `--pcampus-duration-*`, `--pcampus-ease-*` |
+| New animation keyframe with hardcoded colors or values | Use token vars |
+
+### REQUIRED before any new component merges
+
+- [ ] All visual properties via `--pcampus-*` var or Tailwind utility from `@theme inline`
+- [ ] `className` prop forwarded to root element
+- [ ] No hardcoded hex, no hardcoded values that have tokens
+- [ ] Storybook story — all variants, light + dark
+- [ ] Vitest unit test — render + key interactions
+- [ ] Exported from `src/index.ts` barrel
+- [ ] Charts: Recharts base + all colors from `--pcampus-color-*`
+- [ ] Motion: all timing and easing from `--pcampus-duration-*` / `--pcampus-ease-*`
+
+### Tier map — what belongs where
+
+| Tier | Folder | Ships as |
+|------|--------|----------|
+| Tokens | `src/tokens/` | `dist/tokens.css` — `--pcampus-*` CSS vars |
+| Theme | `src/styles/theme.css` | `dist/theme.css` — Tailwind preset (services with Tailwind) |
+| Components | `src/styles/components.css` | `dist/index.css` — pre-built utilities (services without Tailwind) |
+| Primitives | `src/primitives/` | Button, Badge, Avatar, Spinner, Skeleton, Card, ButtonLink |
+| Forms | `src/forms/` | Input, Select, Checkbox, Radio, Toggle, FormField |
+| Overlays | `src/overlays/` | Modal, Dialog, Toast, Tooltip, Popover, Dropdown |
+| Layout | `src/layout/` | ThemeProvider, AppShell, SnapshotPanel, SplitPanel, Alert, EmptyState |
+| Charts | `src/charts/` | FunnelChart, FunnelMiniChart, KpiChart, LineChart, BarChart, SankeyChart |
+| Motion | `src/motion/` | Keyframes, transition presets, `useMotionPreference` hook |
+
+### What consuming services MAY do
+
+1. Import from `@pcampus-studio/ui` — components, tokens, charts, motion
+2. Override **semantic** tokens only: `--pcampus-color-primary: #1D4ED8`
+3. Add **domain** tokens in their own namespace on top: `--color-evidence-blue: #2952A3`
+4. Extend Tailwind with domain colors in their own `@theme inline` additions
+5. Write domain components that **compose from** pcampus-ui primitives
+
+### What consuming services MUST NOT do
+
+1. Copy component source from pcampus-ui into their repo
+2. Define generic visual tokens independently of pcampus-ui
+3. `style={{ color: '#...' }}` in any component
+4. Create a button, card, chart, or animation from scratch without checking pcampus-ui first
