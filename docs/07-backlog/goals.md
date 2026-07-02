@@ -19,6 +19,7 @@
 |G-011 | Charts tier — FunnelChart, KpiChart, LineChart, BarChart, SankeyChart  | done | SHIP | G-008, G-009 |
 |G-012 | Motion system — tokens, keyframes, transitions, hooks  | done | SHIP | G-008, G-009 |
 |G-013 | ThemeToggle component + motion peerDependency  | review | REVIEW | G-008, G-012 |
+|G-014 | Fix dist/theme.css — raw CSS output, add surface-card + warning tokens | review | REVIEW | G-009 |
 
 ---
 
@@ -67,6 +68,7 @@ Alias in goal Plan tables: **Pcampus phase** = collaboration phase (DEFINE–SHI
 |G-011 | done | SHIP | G-008, G-009 | [goals/_archived/G-011.md](goals/_archived/G-011.md) |
 |G-012 | done | SHIP | G-008, G-009 | [goals/_archived/G-012.md](goals/_archived/G-012.md) |
 |G-013 | review | REVIEW | G-008, G-012 | [goals/G-013.md](goals/G-013.md) |
+|G-014 | review | REVIEW | G-009 | [goals/G-014.md](goals/G-014.md) |
 
 ## Archived
 

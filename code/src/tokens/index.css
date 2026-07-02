@@ -35,12 +35,15 @@
   --pcampus-color-accent-subtle:   var(--pcampus-amber-100);
   --pcampus-color-success:         var(--pcampus-green-600);
   --pcampus-color-success-subtle:  var(--pcampus-green-100);
+  --pcampus-color-warning:         var(--pcampus-amber-600);
+  --pcampus-color-warning-subtle:  var(--pcampus-amber-100);
   --pcampus-color-error:           var(--pcampus-red-600);
   --pcampus-color-error-subtle:    var(--pcampus-red-100);
   --pcampus-color-neutral:         var(--pcampus-slate-400);
   --pcampus-color-neutral-subtle:  var(--pcampus-slate-100);
   --pcampus-color-surface:         var(--pcampus-gray-50);
   --pcampus-color-surface-subtle:  var(--pcampus-gray-100);
+  --pcampus-color-surface-card:    #ffffff;
   --pcampus-color-overlay:         rgba(249, 248, 246, 0.92);
   --pcampus-color-text:            var(--pcampus-gray-900);
   --pcampus-color-text-secondary:  #4A4A48;
@@ -139,7 +142,9 @@
     --pcampus-color-accent-light:     #E8A96A;
     --pcampus-color-accent-subtle:    rgba(212, 136, 77, 0.12);
 
+    --pcampus-color-surface-card:     #1c1c1b;
     --pcampus-color-success:          #3DAB6A;
+    --pcampus-color-warning:          var(--pcampus-amber-300);
     --pcampus-color-error:            #E74C3C;
     --pcampus-color-neutral:          #6B7A9E;
 
