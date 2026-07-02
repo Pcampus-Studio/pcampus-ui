@@ -9,10 +9,14 @@ export interface NavItem {
   active?: boolean;
   badge?: string | number;
   children?: NavItem[];
+  /** When true, renders as a non-interactive placeholder (future service) */
+  disabled?: boolean;
 }
 
 export interface AppShellProps {
   serviceName: string;
+  /** If provided, wraps the service name in a link (e.g. href="/" for home). */
+  serviceHref?: string;
   logo?: React.ReactNode;
   navItems: NavItem[];
   topBarRight?: React.ReactNode;
@@ -22,8 +26,24 @@ export interface AppShellProps {
   className?: string;
 }
 
-const NavLink: React.FC<{ item: NavItem; collapsed: boolean }> = ({ item, collapsed }) => {
+const NavLink: React.FC<{ item: NavItem; collapsed: boolean; indent?: boolean }> = ({ item, collapsed, indent }) => {
   const Tag = item.href ? 'a' : 'button';
+
+  if (item.disabled) {
+    return (
+      <span
+        title={collapsed ? item.label : undefined}
+        className={clsx(
+          'flex items-center gap-3 rounded-pcampus-md text-base font-pcampus-sans transition-all duration-fast ease-default w-full opacity-40 cursor-not-allowed select-none',
+          collapsed ? 'p-3 justify-center' : 'py-3 px-5 justify-start',
+          indent && !collapsed && 'pl-9',
+        )}
+      >
+        {item.icon && <span className="shrink-0 w-5 h-5 flex items-center justify-center">{item.icon}</span>}
+        {!collapsed && <span className="flex-1">{item.label}</span>}
+      </span>
+    );
+  }
 
   return (
     <Tag
@@ -34,6 +54,7 @@ const NavLink: React.FC<{ item: NavItem; collapsed: boolean }> = ({ item, collap
       className={clsx(
         'flex items-center gap-3 rounded-pcampus-md text-base font-pcampus-sans text-left transition-all duration-fast ease-default w-full cursor-pointer no-underline border-none',
         collapsed ? 'p-3 justify-center' : 'py-3 px-5 justify-start',
+        indent && !collapsed && 'pl-9',
         item.active
           ? 'text-pcampus-primary bg-[var(--pcampus-color-primary-subtle)]'
           : 'text-pcampus-body bg-transparent hover:bg-pcampus-canvas-soft'
@@ -54,8 +75,67 @@ const NavLink: React.FC<{ item: NavItem; collapsed: boolean }> = ({ item, collap
   );
 };
 
+/** Renders a collapsible nav group when NavItem has children. */
+const NavGroup: React.FC<{ item: NavItem; collapsed: boolean }> = ({ item, collapsed }) => {
+  const [open, setOpen] = useState(true);
+  const hasActiveChild = item.children?.some((c) => c.active);
+  const labelCls = clsx(
+    'flex items-center gap-3 rounded-pcampus-md text-base font-pcampus-sans text-left transition-all duration-fast ease-default cursor-pointer no-underline border-none bg-transparent',
+    hasActiveChild ? 'text-pcampus-primary' : 'text-pcampus-body hover:bg-pcampus-canvas-soft',
+  );
+
+  return (
+    <div>
+      <div
+        title={collapsed ? item.label : undefined}
+        className={clsx('flex items-center', collapsed ? 'p-3 justify-center' : 'pr-2')}
+      >
+        {/* Label / navigate area */}
+        {item.href ? (
+          <a
+            href={item.href}
+            className={clsx(labelCls, collapsed ? 'p-3' : 'flex-1 py-3 pl-5 pr-2')}
+          >
+            {item.icon && (
+              <span className="shrink-0 w-5 h-5 flex items-center justify-center">{item.icon}</span>
+            )}
+            {!collapsed && <span className="flex-1 font-medium">{item.label}</span>}
+          </a>
+        ) : (
+          <span className={clsx(labelCls, collapsed ? 'p-3' : 'flex-1 py-3 pl-5 pr-2')}>
+            {item.icon && (
+              <span className="shrink-0 w-5 h-5 flex items-center justify-center">{item.icon}</span>
+            )}
+            {!collapsed && <span className="flex-1 font-medium">{item.label}</span>}
+          </span>
+        )}
+
+        {/* Chevron toggle — hidden when sidebar collapsed */}
+        {!collapsed && (
+          <button
+            onClick={() => setOpen((o) => !o)}
+            aria-label={open ? 'Collapse' : 'Expand'}
+            className="p-2 rounded-pcampus-md bg-transparent border-none cursor-pointer text-pcampus-muted hover:text-pcampus-ink text-xs transition-colors"
+          >
+            {open ? '▾' : '▸'}
+          </button>
+        )}
+      </div>
+
+      {!collapsed && open && item.children && (
+        <div className="flex flex-col gap-1 mt-0.5">
+          {item.children.map((child, i) => (
+            <NavLink key={i} item={child} collapsed={false} indent />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
 export const AppShell: React.FC<AppShellProps> = ({
   serviceName,
+  serviceHref,
   logo,
   navItems,
   topBarRight,
@@ -98,9 +178,18 @@ export const AppShell: React.FC<AppShellProps> = ({
             ☰
           </button>
           {logo}
-          <span className="fontWeight-600 text-base font-semibold text-pcampus-ink">
-            {serviceName}
-          </span>
+          {serviceHref ? (
+            <a
+              href={serviceHref}
+              className="fontWeight-600 text-base font-semibold text-pcampus-ink no-underline hover:text-pcampus-primary transition-colors"
+            >
+              {serviceName}
+            </a>
+          ) : (
+            <span className="fontWeight-600 text-base font-semibold text-pcampus-ink">
+              {serviceName}
+            </span>
+          )}
         </div>
         {topBarRight && <div className="flex items-center gap-3">{topBarRight}</div>}
       </header>
@@ -110,9 +199,13 @@ export const AppShell: React.FC<AppShellProps> = ({
         aria-label="Main navigation"
         className="border-r border-pcampus-hairline overflow-y-auto overflow-x-hidden p-3 flex flex-col gap-1 bg-pcampus-canvas transition-[width] duration-panel ease-default"
       >
-        {navItems.map((item, i) => (
-          <NavLink key={i} item={item} collapsed={collapsed} />
-        ))}
+        {navItems.map((item, i) =>
+          item.children?.length ? (
+            <NavGroup key={i} item={item} collapsed={collapsed} />
+          ) : (
+            <NavLink key={i} item={item} collapsed={collapsed} />
+          )
+        )}
       </nav>
 
       {/* Content */}
