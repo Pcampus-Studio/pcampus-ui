@@ -18,8 +18,6 @@
 |G-010 | Card + ButtonLink primitives  | done | SHIP | G-008 |
 |G-011 | Charts tier — FunnelChart, KpiChart, LineChart, BarChart, SankeyChart  | done | SHIP | G-008, G-009 |
 |G-012 | Motion system — tokens, keyframes, transitions, hooks  | done | SHIP | G-008, G-009 |
-|G-013 | ThemeToggle component + motion peerDependency  | review | REVIEW | G-008, G-012 |
-|G-014 | Fix dist/theme.css — raw CSS output, add surface-card + warning tokens | review | REVIEW | G-009 |
 
 ---
 
@@ -67,8 +65,6 @@ Alias in goal Plan tables: **Pcampus phase** = collaboration phase (DEFINE–SHI
 |G-010 | done | SHIP | G-008 | [goals/_archived/G-010.md](goals/_archived/G-010.md) |
 |G-011 | done | SHIP | G-008, G-009 | [goals/_archived/G-011.md](goals/_archived/G-011.md) |
 |G-012 | done | SHIP | G-008, G-009 | [goals/_archived/G-012.md](goals/_archived/G-012.md) |
-|G-013 | review | REVIEW | G-008, G-012 | [goals/G-013.md](goals/G-013.md) |
-|G-014 | review | REVIEW | G-009 | [goals/G-014.md](goals/G-014.md) |
 
 ## Archived
 
@@ -80,6 +76,9 @@ Completed goals: [`goals/_archived/`](goals/_archived/) · log: [changelog-goals
 | G-010 | Card + ButtonLink primitives | 2026-07-02 | [goals/_archived/G-010.md](goals/_archived/G-010.md) |
 | G-011 | Charts tier — FunnelChart, KpiChart, LineChart, BarChart, SankeyChart, FunnelMiniChart | 2026-07-02 | [goals/_archived/G-011.md](goals/_archived/G-011.md) |
 | G-012 | Motion system — tokens, keyframes, transitions, hooks | 2026-07-02 | [goals/_archived/G-012.md](goals/_archived/G-012.md) |
+| G-013 | ThemeToggle component + motion peerDependency | 2026-07-04 | [goals/_archived/G-013.md](goals/_archived/G-013.md) |
+| G-014 | Fix dist/theme.css — raw CSS output, add surface-card + warning tokens | 2026-07-04 | [goals/_archived/G-014.md](goals/_archived/G-014.md) |
+| G-015 | Fix @theme inline — prefixed utility mappings so components style | 2026-07-04 | [goals/_archived/G-015.md](goals/_archived/G-015.md) |
 
 ## Create a goal
 

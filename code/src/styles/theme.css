@@ -28,6 +28,22 @@
   --color-error:           var(--pcampus-color-error);
   --color-warning:         var(--pcampus-color-warning);
 
+  /* Prefixed utility names used by pcampus-ui components */
+  --color-pcampus-primary:         var(--pcampus-color-primary);
+  --color-pcampus-primary-hover:   var(--pcampus-color-primary-hover);
+  --color-pcampus-on-primary:      var(--pcampus-color-text-inverse);
+  --color-pcampus-ink:             var(--pcampus-color-text);
+  --color-pcampus-body:            var(--pcampus-color-text-secondary);
+  --color-pcampus-muted:           var(--pcampus-color-text-tertiary);
+  --color-pcampus-canvas:          var(--pcampus-color-surface);
+  --color-pcampus-canvas-soft:     var(--pcampus-color-surface-subtle);
+  --color-pcampus-surface-card:    var(--pcampus-color-surface-card);
+  --color-pcampus-hairline:        var(--pcampus-color-border);
+  --color-pcampus-hairline-strong: var(--pcampus-color-border-strong);
+  --color-pcampus-success:         var(--pcampus-color-success);
+  --color-pcampus-error:           var(--pcampus-color-error);
+  --color-pcampus-warning:         var(--pcampus-color-warning);
+
   /* ─── Typography ──────────────────────────── */
   --font-sans:             var(--pcampus-font-sans);
   --font-mono:             var(--pcampus-font-mono);

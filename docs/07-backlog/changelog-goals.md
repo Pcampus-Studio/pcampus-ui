@@ -14,3 +14,6 @@
 | G-010 | 2026-07-02 | — | Promoted Card components and ButtonLink primitive from Cockpit |
 | G-011 | 2026-07-02 | — | Implemented Recharts-based chart components (Funnel, FunnelMini, KPI, Line, Bar, Sankey) |
 | G-012 | 2026-07-02 | — | Built motion system with central keyframes, useMotionPreference hook, and JS presets |
+| G-013 | 2026-07-04 | — | Added ThemeToggle primitive, motion peerDependency, package version 1.2.0 build, and publish dry-run |
+| G-014 | 2026-07-04 | — | Fixed `dist/theme.css` to ship raw tokens plus `@theme inline`, verified build output, and confirmed package version 1.3.0 published |
+| G-015 | 2026-07-04 | — | Added prefixed `--color-pcampus-*` theme mappings, regression test coverage, consumer smoke verification, and published 1.3.1 |

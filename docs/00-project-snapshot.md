@@ -19,7 +19,7 @@ A **component library**, not an application — no routing, auth, or business lo
 
 | ID | Status | Summary |
 |----|--------|---------|
-| *(none)* | — | Create G-001 at project bootstrap |
+| *(none)* | — | No active ready/review goals |
 
 ## Constraints
 
@@ -47,8 +47,8 @@ A **component library**, not an application — no routing, auth, or business lo
 
 | Issue | Goal / note |
 |-------|-------------|
-| `code/` not bootstrapped | G-001 |
+| *(none)* | — |
 
 ## Last updated
 
-2026-07-02 — vision integrated from docs/01-vision.md
+2026-07-04 — closed G-015; no active ready/review goals
