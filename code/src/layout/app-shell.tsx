@@ -3,6 +3,8 @@ import { clsx } from 'clsx';
 
 export interface NavItem {
   label: string;
+  /** Secondary line under label (service-level nav only). */
+  subtitle?: string;
   icon?: React.ReactNode;
   href?: string;
   onClick?: () => void;
@@ -24,23 +26,57 @@ export interface AppShellProps {
   onSidebarToggle?: (collapsed: boolean) => void;
   children: React.ReactNode;
   className?: string;
+  /** Optional className override for the main content area. */
+  mainClassName?: string;
 }
 
-const NavLink: React.FC<{ item: NavItem; collapsed: boolean; indent?: boolean }> = ({ item, collapsed, indent }) => {
+const navTitle = (item: NavItem) =>
+  item.subtitle ? `${item.label} — ${item.subtitle}` : item.label;
+
+const NavItemText: React.FC<{
+  item: NavItem;
+  emphasized?: boolean;
+  child?: boolean;
+}> = ({ item, emphasized, child }) => (
+  <span className={clsx('flex-1 min-w-0', child ? 'block' : 'flex flex-col gap-0.5')}>
+    <span className={clsx(emphasized && 'font-medium')}>{item.label}</span>
+    {!child && item.subtitle && (
+      <span className="block text-[11px] leading-tight text-pcampus-muted">{item.subtitle}</span>
+    )}
+  </span>
+);
+
+const navRowCls = (active: boolean, collapsed: boolean, indent?: boolean) =>
+  clsx(
+    'flex items-start gap-3 rounded-pcampus-md text-base font-pcampus-sans text-left transition-all duration-fast ease-default w-full',
+    collapsed ? 'p-3 justify-center items-center' : 'py-2.5 px-5 justify-start',
+    indent && !collapsed && 'py-2 px-3 text-sm',
+    active
+      ? 'text-pcampus-primary bg-[var(--pcampus-color-primary-subtle)]'
+      : 'text-pcampus-body bg-transparent hover:bg-pcampus-canvas-soft',
+  );
+
+const NavLink: React.FC<{ item: NavItem; collapsed: boolean; indent?: boolean }> = ({
+  item,
+  collapsed,
+  indent,
+}) => {
   const Tag = item.href ? 'a' : 'button';
+  const active = !!item.active;
 
   if (item.disabled) {
     return (
       <span
-        title={collapsed ? item.label : undefined}
+        title={collapsed ? navTitle(item) : undefined}
         className={clsx(
-          'flex items-center gap-3 rounded-pcampus-md text-base font-pcampus-sans transition-all duration-fast ease-default w-full opacity-40 cursor-not-allowed select-none',
-          collapsed ? 'p-3 justify-center' : 'py-3 px-5 justify-start',
-          indent && !collapsed && 'pl-9',
+          navRowCls(false, collapsed, indent),
+          'opacity-40 cursor-not-allowed select-none',
         )}
       >
-        {item.icon && <span className="shrink-0 w-5 h-5 flex items-center justify-center">{item.icon}</span>}
-        {!collapsed && <span className="flex-1">{item.label}</span>}
+        {!indent && item.icon && (
+          <span className="shrink-0 w-5 h-5 flex items-center justify-center mt-0.5">{item.icon}</span>
+        )}
+        {!collapsed && <NavItemText item={item} child={indent} />}
       </span>
     );
   }
@@ -49,23 +85,18 @@ const NavLink: React.FC<{ item: NavItem; collapsed: boolean; indent?: boolean }>
     <Tag
       href={item.href}
       onClick={item.onClick}
-      title={collapsed ? item.label : undefined}
-      aria-current={item.active ? 'page' : undefined}
-      className={clsx(
-        'flex items-center gap-3 rounded-pcampus-md text-base font-pcampus-sans text-left transition-all duration-fast ease-default w-full cursor-pointer no-underline border-none',
-        collapsed ? 'p-3 justify-center' : 'py-3 px-5 justify-start',
-        indent && !collapsed && 'pl-9',
-        item.active
-          ? 'text-pcampus-primary bg-[var(--pcampus-color-primary-subtle)]'
-          : 'text-pcampus-body bg-transparent hover:bg-pcampus-canvas-soft'
-      )}
+      title={collapsed ? navTitle(item) : undefined}
+      aria-current={active ? 'page' : undefined}
+      className={clsx(navRowCls(active, collapsed, indent), 'cursor-pointer no-underline border-none')}
     >
-      {item.icon && <span className="shrink-0 w-5 h-5 flex items-center justify-center">{item.icon}</span>}
+      {!indent && item.icon && (
+        <span className="shrink-0 w-5 h-5 flex items-center justify-center mt-0.5">{item.icon}</span>
+      )}
       {!collapsed && (
         <>
-          <span className="flex-1">{item.label}</span>
-          {item.badge !== undefined && (
-            <span className="bg-pcampus-primary text-pcampus-on-primary rounded-pcampus-full text-[10px] font-semibold px-1.5 py-[1px] min-w-[18px] text-center">
+          <NavItemText item={item} emphasized={!indent} child={indent} />
+          {!indent && item.badge !== undefined && (
+            <span className="bg-pcampus-primary text-pcampus-on-primary rounded-pcampus-full text-[10px] font-semibold px-1.5 py-[1px] min-w-[18px] text-center shrink-0">
               {item.badge}
             </span>
           )}
@@ -78,44 +109,42 @@ const NavLink: React.FC<{ item: NavItem; collapsed: boolean; indent?: boolean }>
 /** Renders a collapsible nav group when NavItem has children. */
 const NavGroup: React.FC<{ item: NavItem; collapsed: boolean }> = ({ item, collapsed }) => {
   const [open, setOpen] = useState(true);
-  const hasActiveChild = item.children?.some((c) => c.active);
+  const hasActiveChild = item.children?.some((c) => c.active) ?? false;
+  const headerActive = !!item.active || hasActiveChild;
   const labelCls = clsx(
-    'flex items-center gap-3 rounded-pcampus-md text-base font-pcampus-sans text-left transition-all duration-fast ease-default cursor-pointer no-underline border-none bg-transparent',
-    hasActiveChild ? 'text-pcampus-primary' : 'text-pcampus-body hover:bg-pcampus-canvas-soft',
+    navRowCls(headerActive, collapsed),
+    'cursor-pointer no-underline border-none',
   );
 
   return (
     <div>
       <div
-        title={collapsed ? item.label : undefined}
-        className={clsx('flex items-center', collapsed ? 'p-3 justify-center' : 'pr-2')}
+        title={collapsed ? navTitle(item) : undefined}
+        className={clsx('flex items-start', collapsed ? 'p-3 justify-center' : 'pr-2')}
       >
-        {/* Label / navigate area */}
         {item.href ? (
-          <a
-            href={item.href}
-            className={clsx(labelCls, collapsed ? 'p-3' : 'flex-1 py-3 pl-5 pr-2')}
-          >
+          <a href={item.href} className={clsx(labelCls, collapsed ? 'p-3' : 'flex-1 py-2.5 pl-5 pr-2')}>
             {item.icon && (
-              <span className="shrink-0 w-5 h-5 flex items-center justify-center">{item.icon}</span>
+              <span className="shrink-0 w-5 h-5 flex items-center justify-center mt-0.5">{item.icon}</span>
             )}
-            {!collapsed && <span className="flex-1 font-medium">{item.label}</span>}
+            {!collapsed && <NavItemText item={item} emphasized />}
           </a>
         ) : (
-          <span className={clsx(labelCls, collapsed ? 'p-3' : 'flex-1 py-3 pl-5 pr-2')}>
+          <span className={clsx(labelCls, collapsed ? 'p-3' : 'flex-1 py-2.5 pl-5 pr-2')}>
             {item.icon && (
-              <span className="shrink-0 w-5 h-5 flex items-center justify-center">{item.icon}</span>
+              <span className="shrink-0 w-5 h-5 flex items-center justify-center mt-0.5">{item.icon}</span>
             )}
-            {!collapsed && <span className="flex-1 font-medium">{item.label}</span>}
+            {!collapsed && <NavItemText item={item} emphasized />}
           </span>
         )}
 
-        {/* Chevron toggle — hidden when sidebar collapsed */}
         {!collapsed && (
           <button
+            type="button"
             onClick={() => setOpen((o) => !o)}
             aria-label={open ? 'Collapse' : 'Expand'}
-            className="p-2 rounded-pcampus-md bg-transparent border-none cursor-pointer text-pcampus-muted hover:text-pcampus-ink text-xs transition-colors"
+            aria-expanded={open}
+            className="mt-2 p-2 rounded-pcampus-md bg-transparent border-none cursor-pointer text-pcampus-muted hover:text-pcampus-ink text-xs transition-colors shrink-0"
           >
             {open ? '▾' : '▸'}
           </button>
@@ -123,7 +152,11 @@ const NavGroup: React.FC<{ item: NavItem; collapsed: boolean }> = ({ item, colla
       </div>
 
       {!collapsed && open && item.children && (
-        <div className="flex flex-col gap-1 mt-0.5">
+        <div
+          className="flex flex-col gap-0.5 mt-0.5 ml-7 pl-3 border-l border-pcampus-hairline"
+          role="group"
+          aria-label={`${item.label} sub-navigation`}
+        >
           {item.children.map((child, i) => (
             <NavLink key={i} item={child} collapsed={false} indent />
           ))}
@@ -143,6 +176,7 @@ export const AppShell: React.FC<AppShellProps> = ({
   onSidebarToggle,
   children,
   className,
+  mainClassName,
 }) => {
   const [internalCollapsed, setInternalCollapsed] = useState(false);
   const isControlled = controlledCollapsed !== undefined;
@@ -164,13 +198,13 @@ export const AppShell: React.FC<AppShellProps> = ({
       }}
       className={clsx(
         'grid min-h-screen font-pcampus-sans bg-pcampus-canvas transition-[grid-template-columns] duration-panel ease-default',
-        className
+        className,
       )}
     >
-      {/* Top bar */}
       <header className="col-span-full h-[var(--pcampus-layout-nav-height)] flex items-center justify-between px-6 border-b border-pcampus-hairline bg-pcampus-canvas sticky top-0 z-[var(--pcampus-z-sticky)] gap-4">
         <div className="flex items-center gap-3">
           <button
+            type="button"
             onClick={toggle}
             aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             className="bg-transparent border-none cursor-pointer text-pcampus-muted text-lg p-1 hover:text-pcampus-ink transition-colors"
@@ -186,15 +220,12 @@ export const AppShell: React.FC<AppShellProps> = ({
               {serviceName}
             </a>
           ) : (
-            <span className="fontWeight-600 text-base font-semibold text-pcampus-ink">
-              {serviceName}
-            </span>
+            <span className="fontWeight-600 text-base font-semibold text-pcampus-ink">{serviceName}</span>
           )}
         </div>
         {topBarRight && <div className="flex items-center gap-3">{topBarRight}</div>}
       </header>
 
-      {/* Sidebar */}
       <nav
         aria-label="Main navigation"
         className="border-r border-pcampus-hairline overflow-y-auto overflow-x-hidden p-3 flex flex-col gap-1 bg-pcampus-canvas transition-[width] duration-panel ease-default"
@@ -204,14 +235,11 @@ export const AppShell: React.FC<AppShellProps> = ({
             <NavGroup key={i} item={item} collapsed={collapsed} />
           ) : (
             <NavLink key={i} item={item} collapsed={collapsed} />
-          )
+          ),
         )}
       </nav>
 
-      {/* Content */}
-      <main className="overflow-y-auto p-8 bg-pcampus-canvas-soft">
-        {children}
-      </main>
+      <main className={mainClassName ?? 'overflow-y-auto p-8 bg-pcampus-canvas-soft'}>{children}</main>
     </div>
   );
 };

@@ -59,4 +59,49 @@ describe('AppShell', () => {
     await userEvent.click(screen.getByLabelText('Collapse sidebar'));
     expect(mockToggle).toHaveBeenCalledWith(true);
   });
+
+  it('renders nav item subtitles', () => {
+    render(
+      <AppShell
+        serviceName="Test"
+        navItems={[{ label: 'Pulse', subtitle: 'Business Intelligence', href: '#' }]}
+      >
+        <p>Content</p>
+      </AppShell>,
+    );
+    expect(screen.getByText('Business Intelligence')).toBeInTheDocument();
+  });
+
+  it('renders nav group children with tree guide', () => {
+    render(
+      <AppShell
+        serviceName="Test"
+        navItems={[
+          {
+            label: 'Pulse',
+            href: '#',
+            children: [
+              { label: 'Workspace', href: '#', active: true },
+              { label: 'Next Actions', href: '#' },
+            ],
+          },
+        ]}
+      >
+        <p>Content</p>
+      </AppShell>,
+    );
+    expect(screen.getByRole('group', { name: 'Pulse sub-navigation' })).toBeInTheDocument();
+    expect(screen.getByText('Workspace')).toBeInTheDocument();
+    expect(screen.getByText('Next Actions')).toBeInTheDocument();
+  });
+
+  it('applies mainClassName to main content', () => {
+    render(
+      <AppShell serviceName="Test" navItems={nav} mainClassName="overflow-hidden custom-main">
+        <p>Content</p>
+      </AppShell>,
+    );
+    const main = screen.getByRole('main');
+    expect(main).toHaveClass('overflow-hidden', 'custom-main');
+  });
 });
