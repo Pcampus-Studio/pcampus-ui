@@ -69,15 +69,25 @@ const NavItemText: React.FC<{
   </span>
 );
 
-const navRowCls = (active: boolean, collapsed: boolean, indent?: boolean) =>
-  clsx(
+const navRowCls = (active: boolean, collapsed: boolean, indent?: boolean) => {
+  const tone = active
+    ? 'text-pcampus-primary bg-[var(--pcampus-color-primary-subtle)]'
+    : 'text-pcampus-body bg-transparent hover:bg-pcampus-canvas-soft';
+
+  if (indent && !collapsed) {
+    return clsx(
+      'flex items-center w-full rounded-pcampus-sm font-pcampus-sans text-left transition-all duration-fast ease-default',
+      'py-0.5 px-2 text-[13px] leading-snug',
+      tone,
+    );
+  }
+
+  return clsx(
     'flex items-start gap-3 rounded-pcampus-md text-base font-pcampus-sans text-left transition-all duration-fast ease-default w-full',
     collapsed ? 'p-3 justify-center items-center' : 'py-2.5 px-5 justify-start',
-    indent && !collapsed && 'py-1 px-2 text-sm',
-    active
-      ? 'text-pcampus-primary bg-[var(--pcampus-color-primary-subtle)]'
-      : 'text-pcampus-body bg-transparent hover:bg-pcampus-canvas-soft',
+    tone,
   );
+};
 
 const NavLink: React.FC<{ item: NavItem; collapsed: boolean; indent?: boolean }> = ({
   item,
@@ -166,7 +176,7 @@ const NavGroup: React.FC<{ item: NavItem; collapsed: boolean }> = ({ item, colla
 
       {!collapsed && open && item.children && (
         <div
-          className="flex flex-col gap-0 mt-0.5 ml-7 pl-2 border-l border-pcampus-hairline"
+          className="flex flex-col ml-7 pl-2 border-l border-pcampus-hairline"
           role="group"
           aria-label={`${item.label} sub-navigation`}
         >
