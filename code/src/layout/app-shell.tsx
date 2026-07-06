@@ -76,8 +76,8 @@ const navRowCls = (active: boolean, collapsed: boolean, indent?: boolean) => {
 
   if (indent && !collapsed) {
     return clsx(
-      'flex items-center w-full rounded-pcampus-sm font-pcampus-sans text-left transition-all duration-fast ease-default',
-      'py-0.5 px-2 text-[13px] leading-snug',
+      'flex items-center w-full rounded-pcampus-md font-pcampus-sans text-left transition-all duration-fast ease-default',
+      'py-1.5 px-3 text-sm leading-normal',
       tone,
     );
   }
@@ -176,7 +176,7 @@ const NavGroup: React.FC<{ item: NavItem; collapsed: boolean }> = ({ item, colla
 
       {!collapsed && open && item.children && (
         <div
-          className="flex flex-col ml-7 pl-2 border-l border-pcampus-hairline"
+          className="ml-7 pl-3 border-l border-pcampus-hairline flex flex-col gap-0.5"
           role="group"
           aria-label={`${item.label} sub-navigation`}
         >
