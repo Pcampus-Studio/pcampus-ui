@@ -33,6 +33,29 @@ export interface AppShellProps {
 const navTitle = (item: NavItem) =>
   item.subtitle ? `${item.label} — ${item.subtitle}` : item.label;
 
+const NavExpandToggle: React.FC<{ open: boolean; onToggle: () => void }> = ({ open, onToggle }) => (
+  <button
+    type="button"
+    onClick={onToggle}
+    aria-label={open ? 'Collapse' : 'Expand'}
+    aria-expanded={open}
+    className="flex items-center justify-center shrink-0 w-9 h-9 mr-1 rounded-pcampus-md bg-transparent border-none cursor-pointer text-pcampus-muted hover:text-pcampus-ink transition-colors"
+  >
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="w-[18px] h-[18px]"
+      aria-hidden
+    >
+      {open ? <path d="M6 9l6 6 6-6" /> : <path d="M9 6l6 6-6 6" />}
+    </svg>
+  </button>
+);
+
 const NavItemText: React.FC<{
   item: NavItem;
   emphasized?: boolean;
@@ -50,7 +73,7 @@ const navRowCls = (active: boolean, collapsed: boolean, indent?: boolean) =>
   clsx(
     'flex items-start gap-3 rounded-pcampus-md text-base font-pcampus-sans text-left transition-all duration-fast ease-default w-full',
     collapsed ? 'p-3 justify-center items-center' : 'py-2.5 px-5 justify-start',
-    indent && !collapsed && 'py-2 px-3 text-sm',
+    indent && !collapsed && 'py-1 px-2 text-sm',
     active
       ? 'text-pcampus-primary bg-[var(--pcampus-color-primary-subtle)]'
       : 'text-pcampus-body bg-transparent hover:bg-pcampus-canvas-soft',
@@ -120,7 +143,7 @@ const NavGroup: React.FC<{ item: NavItem; collapsed: boolean }> = ({ item, colla
     <div>
       <div
         title={collapsed ? navTitle(item) : undefined}
-        className={clsx('flex items-start', collapsed ? 'p-3 justify-center' : 'pr-2')}
+        className={clsx('flex items-center', collapsed ? 'p-3 justify-center' : 'pr-1')}
       >
         {item.href ? (
           <a href={item.href} className={clsx(labelCls, collapsed ? 'p-3' : 'flex-1 py-2.5 pl-5 pr-2')}>
@@ -138,22 +161,12 @@ const NavGroup: React.FC<{ item: NavItem; collapsed: boolean }> = ({ item, colla
           </span>
         )}
 
-        {!collapsed && (
-          <button
-            type="button"
-            onClick={() => setOpen((o) => !o)}
-            aria-label={open ? 'Collapse' : 'Expand'}
-            aria-expanded={open}
-            className="mt-2 p-2 rounded-pcampus-md bg-transparent border-none cursor-pointer text-pcampus-muted hover:text-pcampus-ink text-xs transition-colors shrink-0"
-          >
-            {open ? '▾' : '▸'}
-          </button>
-        )}
+        {!collapsed && <NavExpandToggle open={open} onToggle={() => setOpen((o) => !o)} />}
       </div>
 
       {!collapsed && open && item.children && (
         <div
-          className="flex flex-col gap-0.5 mt-0.5 ml-7 pl-3 border-l border-pcampus-hairline"
+          className="flex flex-col gap-0 mt-0.5 ml-7 pl-2 border-l border-pcampus-hairline"
           role="group"
           aria-label={`${item.label} sub-navigation`}
         >
