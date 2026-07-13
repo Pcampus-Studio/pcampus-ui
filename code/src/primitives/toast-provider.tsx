@@ -1,4 +1,6 @@
-import React, { useReducer, useCallback, useRef } from 'react';
+'use client';
+
+import React, { useReducer, useCallback, useRef, useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { clsx } from 'clsx';
 import { ToastContext, ToastData, ToastAction } from './toast-context';
@@ -79,22 +81,32 @@ const ToastItem: React.FC<{ toast: ToastData; onDismiss: (id: string) => void }>
 
 export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(toastReducer, { toasts: [] });
+  const [mounted, setMounted] = useState(false);
   const handleDismiss = useCallback((id: string) => dispatch({ type: 'REMOVE', id }), []);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const toastPortal =
+    mounted && typeof document !== 'undefined'
+      ? ReactDOM.createPortal(
+          <div
+            aria-label="Notifications"
+            className="fixed bottom-8 right-8 z-[var(--pcampus-z-toast)] flex flex-col gap-3 items-end"
+          >
+            {state.toasts.map((t) => (
+              <ToastItem key={t.id} toast={t} onDismiss={handleDismiss} />
+            ))}
+          </div>,
+          document.body
+        )
+      : null;
 
   return (
     <ToastContext.Provider value={{ dispatch }}>
       {children}
-      {ReactDOM.createPortal(
-        <div
-          aria-label="Notifications"
-          className="fixed bottom-8 right-8 z-[var(--pcampus-z-toast)] flex flex-col gap-3 items-end"
-        >
-          {state.toasts.map((t) => (
-            <ToastItem key={t.id} toast={t} onDismiss={handleDismiss} />
-          ))}
-        </div>,
-        document.body
-      )}
+      {toastPortal}
     </ToastContext.Provider>
   );
 };

@@ -1,4 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+'use client';
+
+import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { clsx } from 'clsx';
 
@@ -34,7 +36,12 @@ export const Modal: React.FC<ModalProps> = ({
   className,
 }) => {
   const panelRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
   const titleId = `modal-title-${Math.random().toString(36).slice(2, 7)}`;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -69,7 +76,7 @@ export const Modal: React.FC<ModalProps> = ({
     };
   }, [open, onClose]);
 
-  if (!open) return null;
+  if (!open || !mounted || typeof document === 'undefined') return null;
 
   return ReactDOM.createPortal(
     <div

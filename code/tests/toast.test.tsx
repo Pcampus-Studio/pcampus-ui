@@ -59,4 +59,13 @@ describe('Toast / useToast', () => {
       'useToast must be used inside <ToastProvider>'
     );
   });
+
+  it('renders children before client mount (SSR-safe)', () => {
+    render(
+      <ToastProvider>
+        <div>SSR child</div>
+      </ToastProvider>
+    );
+    expect(screen.getByText('SSR child')).toBeInTheDocument();
+  });
 });
