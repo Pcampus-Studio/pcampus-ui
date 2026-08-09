@@ -15,3 +15,6 @@ export type { TimelineProps, TimelineItem, TimelineItemStatus } from './timeline
 
 export { FilterBar } from './filter-bar';
 export type { FilterBarProps, FilterPill } from './filter-bar';
+
+export { Accordion } from './accordion';
+export type { AccordionProps, AccordionItem } from './accordion';

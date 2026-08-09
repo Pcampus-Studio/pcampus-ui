@@ -124,34 +124,36 @@ These are the tokens components import. Services remap these to their own brand 
 
 ### Dark Mode
 
+Forced via `data-theme="dark"` (ThemeProvider / Storybook) or `.dark` on `<html>` (ThemeToggle). System preference applies only when neither forces light.
+
 ```css
-@media (prefers-color-scheme: dark) {
-  :root {
-    --pcampus-color-surface:          #0F0F0E;
-    --pcampus-color-surface-subtle:   #1A1A19;
-    --pcampus-color-overlay:          rgba(15, 15, 14, 0.92);
+:root[data-theme="dark"],
+:root.dark {
+  --pcampus-color-surface:          #0F0F0E;
+  --pcampus-color-surface-subtle:   #1A1A19;
+  --pcampus-color-overlay:          rgba(15, 15, 14, 0.92);
 
-    --pcampus-color-primary:          var(--pcampus-blue-400);
-    --pcampus-color-primary-bright:   #6B9FE4;
-    --pcampus-color-primary-subtle:   rgba(75, 127, 212, 0.12);
-    --pcampus-color-primary-border:   rgba(75, 127, 212, 0.30);
+  --pcampus-color-primary:          var(--pcampus-blue-400);
+  --pcampus-color-primary-bright:   #6B9FE4;
+  --pcampus-color-primary-subtle:   rgba(75, 127, 212, 0.12);
+  --pcampus-color-primary-border:   rgba(75, 127, 212, 0.30);
 
-    --pcampus-color-accent:           #D4884D;
-    --pcampus-color-accent-light:     #E8A96A;
-    --pcampus-color-accent-subtle:    rgba(212, 136, 77, 0.12);
+  --pcampus-color-accent:           #D4884D;
+  --pcampus-color-accent-light:     #E8A96A;
+  --pcampus-color-accent-subtle:    rgba(212, 136, 77, 0.12);
 
-    --pcampus-color-success:          #3DAB6A;
-    --pcampus-color-error:            #E74C3C;
-    --pcampus-color-neutral:          #6B7A9E;
+  --pcampus-color-surface-card:     #1c1c1b;
+  --pcampus-color-success:          #3DAB6A;
+  --pcampus-color-error:            #E74C3C;
+  --pcampus-color-neutral:          #6B7A9E;
 
-    --pcampus-color-text:             #F0EFED;
-    --pcampus-color-text-secondary:   #A8A8A5;
-    --pcampus-color-text-tertiary:    #6A6A67;
+  --pcampus-color-text:             #F0EFED;
+  --pcampus-color-text-secondary:   #A8A8A5;
+  --pcampus-color-text-tertiary:    #6A6A67;
 
-    --pcampus-color-border:           rgba(240, 239, 237, 0.08);
-    --pcampus-color-border-subtle:    rgba(240, 239, 237, 0.05);
-    --pcampus-color-border-strong:    rgba(240, 239, 237, 0.16);
-  }
+  --pcampus-color-border:           rgba(240, 239, 237, 0.08);
+  --pcampus-color-border-subtle:    rgba(240, 239, 237, 0.05);
+  --pcampus-color-border-strong:    rgba(240, 239, 237, 0.16);
 }
 ```
 

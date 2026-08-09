@@ -127,11 +127,54 @@
   --pcampus-z-toast:   50;
 }
 
+/*
+ * Dark semantic tokens.
+ * Apply when:
+ *   - Storybook / ThemeProvider sets data-theme="dark"
+ *   - ThemeToggle sets .dark on <html>
+ *   - OS prefers dark AND no explicit light theme
+ */
+:root[data-theme="dark"],
+:root.dark {
+  --pcampus-color-surface:          #0A0E1A;
+  --pcampus-color-surface-subtle:   #0E1322;
+  --pcampus-color-overlay:          rgba(10, 14, 26, 0.92);
+
+  --pcampus-color-primary:          var(--pcampus-blue-400);
+  --pcampus-color-primary-bright:   #6B9FE4;
+  --pcampus-color-primary-subtle:   rgba(75, 127, 212, 0.12);
+  --pcampus-color-primary-border:   rgba(75, 127, 212, 0.30);
+
+  --pcampus-color-accent:           #D4884D;
+  --pcampus-color-accent-light:     #E8A96A;
+  --pcampus-color-accent-subtle:    rgba(212, 136, 77, 0.12);
+
+  --pcampus-color-surface-card:     #141A2C;
+  --pcampus-color-success:          #3DAB6A;
+  --pcampus-color-success-subtle:   rgba(61, 171, 106, 0.12);
+  --pcampus-color-warning:          var(--pcampus-amber-300);
+  --pcampus-color-warning-subtle:   rgba(212, 136, 77, 0.12);
+  --pcampus-color-error:            #E74C3C;
+  --pcampus-color-error-subtle:     rgba(231, 76, 60, 0.12);
+  --pcampus-color-neutral:          #6B7A9E;
+  --pcampus-color-neutral-subtle:   rgba(107, 122, 158, 0.18);
+
+  --pcampus-color-text:             #E7EBF5;
+  --pcampus-color-text-secondary:   #8B95B2;
+  --pcampus-color-text-tertiary:    #6B7593;
+  --pcampus-color-text-disabled:    #4A4A48;
+  --pcampus-color-text-inverse:     var(--pcampus-gray-900);
+
+  --pcampus-color-border:           rgba(255, 255, 255, 0.08);
+  --pcampus-color-border-subtle:    rgba(255, 255, 255, 0.05);
+  --pcampus-color-border-strong:    rgba(255, 255, 255, 0.14);
+}
+
 @media (prefers-color-scheme: dark) {
-  :root {
-    --pcampus-color-surface:          #0F0F0E;
-    --pcampus-color-surface-subtle:   #1A1A19;
-    --pcampus-color-overlay:          rgba(15, 15, 14, 0.92);
+  :root:not([data-theme="light"]):not(.dark) {
+    --pcampus-color-surface:          #0A0E1A;
+    --pcampus-color-surface-subtle:   #0E1322;
+    --pcampus-color-overlay:          rgba(10, 14, 26, 0.92);
 
     --pcampus-color-primary:          var(--pcampus-blue-400);
     --pcampus-color-primary-bright:   #6B9FE4;
@@ -142,18 +185,24 @@
     --pcampus-color-accent-light:     #E8A96A;
     --pcampus-color-accent-subtle:    rgba(212, 136, 77, 0.12);
 
-    --pcampus-color-surface-card:     #1c1c1b;
+    --pcampus-color-surface-card:     #141A2C;
     --pcampus-color-success:          #3DAB6A;
+    --pcampus-color-success-subtle:   rgba(61, 171, 106, 0.12);
     --pcampus-color-warning:          var(--pcampus-amber-300);
+    --pcampus-color-warning-subtle:   rgba(212, 136, 77, 0.12);
     --pcampus-color-error:            #E74C3C;
+    --pcampus-color-error-subtle:     rgba(231, 76, 60, 0.12);
     --pcampus-color-neutral:          #6B7A9E;
+    --pcampus-color-neutral-subtle:   rgba(107, 122, 158, 0.18);
 
-    --pcampus-color-text:             #F0EFED;
-    --pcampus-color-text-secondary:   #A8A8A5;
-    --pcampus-color-text-tertiary:    #6A6A67;
+    --pcampus-color-text:             #E7EBF5;
+    --pcampus-color-text-secondary:   #8B95B2;
+    --pcampus-color-text-tertiary:    #6B7593;
+    --pcampus-color-text-disabled:    #4A4A48;
+    --pcampus-color-text-inverse:     var(--pcampus-gray-900);
 
-    --pcampus-color-border:           rgba(240, 239, 237, 0.08);
-    --pcampus-color-border-subtle:    rgba(240, 239, 237, 0.05);
-    --pcampus-color-border-strong:    rgba(240, 239, 237, 0.16);
+    --pcampus-color-border:           rgba(255, 255, 255, 0.08);
+    --pcampus-color-border-subtle:    rgba(255, 255, 255, 0.05);
+    --pcampus-color-border-strong:    rgba(255, 255, 255, 0.14);
   }
 }
