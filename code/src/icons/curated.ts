@@ -34,6 +34,8 @@ export {
   Inbox,
   File,
   Folder,
+  Database,
+  Image,
   Upload,
   Eye,
   EyeOff,

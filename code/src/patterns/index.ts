@@ -18,3 +18,6 @@ export type { FilterBarProps, FilterPill } from './filter-bar';
 
 export { Accordion } from './accordion';
 export type { AccordionProps, AccordionItem } from './accordion';
+
+export { Dropzone } from './dropzone';
+export type { DropzoneProps } from './dropzone';
