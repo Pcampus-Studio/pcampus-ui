@@ -43,3 +43,53 @@
   --animate-pcampus-toast-in:     pcampus-toast-in var(--pcampus-duration-panel) var(--pcampus-ease-enter);
   --animate-pcampus-spin:         pcampus-spin 1s linear infinite;
 }
+
+/* Dropzone (patterns/dropzone.tsx) — plain CSS so it renders without utilities */
+.pc-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 2.25rem 1.5rem;
+  border: 1.5px dashed var(--pcampus-color-hairline, rgba(255, 255, 255, 0.12));
+  border-radius: var(--pcampus-radius-lg, 14px);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.pc-dropzone:hover,
+.pc-dropzone:focus-visible {
+  border-color: color-mix(in srgb, var(--pcampus-color-primary) 55%, transparent);
+  outline: none;
+}
+.pc-dropzone--over {
+  border-color: var(--pcampus-color-primary);
+  background: color-mix(in srgb, var(--pcampus-color-primary) 6%, transparent);
+}
+.pc-dropzone--disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.pc-dropzone__ic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--pcampus-color-primary) 12%, transparent);
+  color: var(--pcampus-color-primary);
+}
+.pc-dropzone__title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--pcampus-color-text, #e7ebf5);
+}
+.pc-dropzone__hint {
+  font-size: 0.78rem;
+  color: var(--pcampus-color-text-muted, rgba(231, 235, 245, 0.55));
+}
+.pc-dropzone__input {
+  display: none;
+}

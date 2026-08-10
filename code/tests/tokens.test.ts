@@ -1,7 +1,16 @@
 import { describe, it, expect } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { tokens } from '../src/tokens';
 
 describe('tokens', () => {
+  it('applies dark semantic tokens via data-theme and .dark', () => {
+    const css = readFileSync(join(process.cwd(), 'src/tokens/index.css'), 'utf8');
+    expect(css).toContain(':root[data-theme="dark"]');
+    expect(css).toContain(':root.dark');
+    expect(css).toContain(':root:not([data-theme="light"]):not(.dark)');
+  });
+
   it('exports pcampusColorPrimary', () => {
     expect(tokens.pcampusColorPrimary).toBeDefined();
     expect(tokens.pcampusColorPrimary).toBe('var(--pcampus-color-primary)');

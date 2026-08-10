@@ -13,7 +13,7 @@ export default defineConfig([
     clean: true,
     outDir: 'dist/esm',
     treeshake: true,
-    external: ['react', 'react-dom'],
+    external: ['react', 'react-dom', 'lucide-react'],
     loader: { '.css': 'copy' },
     esbuildOptions(options) {
       options.chunkNames = 'chunks/[name]-[hash]';
@@ -31,7 +31,7 @@ export default defineConfig([
     clean: false,
     outDir: 'dist/cjs',
     treeshake: true,
-    external: ['react', 'react-dom'],
+    external: ['react', 'react-dom', 'lucide-react'],
     loader: { '.css': 'copy' },
   },
 ]);
