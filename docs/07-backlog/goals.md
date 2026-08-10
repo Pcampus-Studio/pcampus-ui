@@ -18,6 +18,10 @@
 |G-010 | Card + ButtonLink primitives  | done | SHIP | G-008 |
 |G-011 | Charts tier — FunnelChart, KpiChart, LineChart, BarChart, SankeyChart  | done | SHIP | G-008, G-009 |
 |G-012 | Motion system — tokens, keyframes, transitions, hooks  | done | SHIP | G-008, G-009 |
+|[G-016](goals/G-016.md) | Data/app-screen tier — DataTable, lucide icons, page patterns  | **review** | REVIEW ● | ADR-0002 |
+|[G-017](goals/G-017.md) | Accordion primitive (collapsible list)  | **review** | REVIEW ● | G-016 |
+
+> **In review:** G-016 (data tier) + G-017 (Accordion) — see [ADR-0002](../05-decisions/0002-datatable-lucide-page-patterns.md). Unblocks Mail + Storage screen redesign.
 
 ---
 

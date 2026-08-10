@@ -10,12 +10,12 @@ export interface BadgeProps {
 }
 
 const variantClass = {
-  default: 'bg-pcampus-canvas-soft text-pcampus-ink border border-pcampus-hairline',
-  primary: 'bg-[var(--pcampus-color-primary-subtle)] text-pcampus-primary border border-[var(--pcampus-color-primary-border)]',
-  success: 'bg-[var(--pcampus-color-success-subtle)] text-pcampus-success border border-pcampus-success',
-  warning: 'bg-[var(--pcampus-color-accent-subtle)] text-pcampus-warning border border-[var(--pcampus-color-accent-light)]',
-  error: 'bg-[var(--pcampus-color-error-subtle)] text-pcampus-error border border-pcampus-error',
-  neutral: 'bg-[var(--pcampus-color-neutral-subtle)] text-pcampus-body border border-[var(--pcampus-color-neutral)]',
+  default: 'bg-pcampus-canvas-soft text-pcampus-body',
+  primary: 'bg-[var(--pcampus-color-primary-subtle)] text-pcampus-primary',
+  success: 'bg-[var(--pcampus-color-success-subtle)] text-pcampus-success',
+  warning: 'bg-[var(--pcampus-color-accent-subtle)] text-pcampus-warning',
+  error: 'bg-[var(--pcampus-color-error-subtle)] text-pcampus-error',
+  neutral: 'bg-[var(--pcampus-color-neutral-subtle)] text-pcampus-body',
 } as const;
 
 const dotColorClass = {

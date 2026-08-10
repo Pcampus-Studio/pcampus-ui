@@ -15,14 +15,24 @@ export function ThemeToggle() {
 
   useEffect(() => {
     setMounted(true);
-    const isDark = document.documentElement.classList.contains('dark');
-    setTheme(isDark ? 'dark' : 'light');
+    const root = document.documentElement;
+    const stored = window.localStorage.getItem('theme');
+    const isDark =
+      stored === 'dark' ||
+      root.getAttribute('data-theme') === 'dark' ||
+      root.classList.contains('dark');
+    const next = isDark ? 'dark' : 'light';
+    setTheme(next);
+    root.setAttribute('data-theme', next);
+    root.classList.toggle('dark', next === 'dark');
   }, []);
 
   const toggleTheme = () => {
     const next = theme === 'light' ? 'dark' : 'light';
     setTheme(next);
-    document.documentElement.classList.toggle('dark', next === 'dark');
+    const root = document.documentElement;
+    root.setAttribute('data-theme', next);
+    root.classList.toggle('dark', next === 'dark');
     window.localStorage.setItem('theme', next);
   };
 

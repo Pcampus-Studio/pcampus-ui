@@ -13,12 +13,18 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
 }) => {
   const styleRef = useRef<HTMLStyleElement | null>(null);
 
-  // Apply theme class to document root
+  // Apply theme to <html>: data-theme (tokens) + .dark (ThemeToggle / Tailwind)
   useEffect(() => {
     const root = document.documentElement;
-    root.removeAttribute('data-theme');
-    if (theme !== 'system') {
-      root.setAttribute('data-theme', theme);
+    if (theme === 'dark') {
+      root.setAttribute('data-theme', 'dark');
+      root.classList.add('dark');
+    } else if (theme === 'light') {
+      root.setAttribute('data-theme', 'light');
+      root.classList.remove('dark');
+    } else {
+      root.removeAttribute('data-theme');
+      root.classList.remove('dark');
     }
   }, [theme]);
 

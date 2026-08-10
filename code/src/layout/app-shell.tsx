@@ -214,17 +214,19 @@ export const AppShell: React.FC<AppShellProps> = ({
   return (
     <div
       style={{
-        gridTemplateRows: 'var(--pcampus-layout-nav-height) 1fr',
+        gridTemplateRows: 'var(--pcampus-layout-nav-height) minmax(0, 1fr)',
         gridTemplateColumns: `${
           collapsed ? 'var(--pcampus-layout-sidebar-collapsed)' : 'var(--pcampus-layout-sidebar-width)'
-        } 1fr`,
+        } minmax(0, 1fr)`,
       }}
       className={clsx(
-        'grid min-h-screen font-pcampus-sans bg-pcampus-canvas transition-[grid-template-columns] duration-panel ease-default',
+        // Lock shell to the viewport so nav/main scroll independently
+        // (min-h-screen alone lets the grid grow with nav content → whole page scrolls).
+        'grid h-dvh max-h-dvh overflow-hidden font-pcampus-sans bg-pcampus-canvas transition-[grid-template-columns] duration-panel ease-default',
         className,
       )}
     >
-      <header className="col-span-full h-[var(--pcampus-layout-nav-height)] flex items-center justify-between px-6 border-b border-pcampus-hairline bg-pcampus-canvas sticky top-0 z-[var(--pcampus-z-sticky)] gap-4">
+      <header className="col-span-full h-[var(--pcampus-layout-nav-height)] flex items-center justify-between px-6 border-b border-pcampus-hairline bg-pcampus-canvas z-[var(--pcampus-z-sticky)] gap-4">
         <div className="flex items-center gap-3">
           <button
             type="button"
@@ -251,7 +253,7 @@ export const AppShell: React.FC<AppShellProps> = ({
 
       <nav
         aria-label="Main navigation"
-        className="border-r border-pcampus-hairline overflow-y-auto overflow-x-hidden p-3 flex flex-col gap-1 bg-pcampus-canvas transition-[width] duration-panel ease-default"
+        className="min-h-0 border-r border-pcampus-hairline overflow-y-auto overflow-x-hidden overscroll-contain p-3 flex flex-col gap-1 bg-pcampus-canvas transition-[width] duration-panel ease-default"
       >
         {navItems.map((item, i) =>
           item.children?.length ? (
@@ -262,7 +264,14 @@ export const AppShell: React.FC<AppShellProps> = ({
         )}
       </nav>
 
-      <main className={mainClassName ?? 'overflow-y-auto p-8 bg-pcampus-canvas-soft'}>{children}</main>
+      <main
+        className={clsx(
+          'min-h-0',
+          mainClassName ?? 'overflow-y-auto p-8 bg-pcampus-canvas-soft',
+        )}
+      >
+        {children}
+      </main>
     </div>
   );
 };

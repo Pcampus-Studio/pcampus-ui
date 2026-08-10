@@ -30,7 +30,16 @@ const withTheme: Decorator = (Story, context) => {
   return React.createElement(
     ThemeProvider,
     { theme, key: theme },
-    React.createElement('div', { style: { padding: '24px' } },
+    React.createElement(
+      'div',
+      {
+        style: {
+          padding: '24px',
+          minHeight: '100%',
+          background: 'var(--pcampus-color-surface)',
+          color: 'var(--pcampus-color-text)',
+        },
+      },
       React.createElement(Story)
     )
   );
