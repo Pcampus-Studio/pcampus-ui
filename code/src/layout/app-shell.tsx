@@ -33,6 +33,16 @@ export interface AppShellProps {
 const navTitle = (item: NavItem) =>
   item.subtitle ? `${item.label} — ${item.subtitle}` : item.label;
 
+const groupWithActiveItem = (items: NavItem[]): string | null => {
+  for (const item of items) {
+    if (!item.children?.length) continue;
+    if (item.active || item.children.some((child) => child.active)) {
+      return item.label;
+    }
+  }
+  return null;
+};
+
 const NavExpandToggle: React.FC<{ open: boolean; onToggle: () => void }> = ({ open, onToggle }) => (
   <button
     type="button"
@@ -140,8 +150,12 @@ const NavLink: React.FC<{ item: NavItem; collapsed: boolean; indent?: boolean }>
 };
 
 /** Renders a collapsible nav group when NavItem has children. */
-const NavGroup: React.FC<{ item: NavItem; collapsed: boolean }> = ({ item, collapsed }) => {
-  const [open, setOpen] = useState(true);
+const NavGroup: React.FC<{
+  item: NavItem;
+  collapsed: boolean;
+  open: boolean;
+  onOpen: () => void;
+}> = ({ item, collapsed, open, onOpen }) => {
   const hasActiveChild = item.children?.some((c) => c.active) ?? false;
   const headerActive = !!item.active || hasActiveChild;
   const labelCls = clsx(
@@ -171,7 +185,7 @@ const NavGroup: React.FC<{ item: NavItem; collapsed: boolean }> = ({ item, colla
           </span>
         )}
 
-        {!collapsed && <NavExpandToggle open={open} onToggle={() => setOpen((o) => !o)} />}
+        {!collapsed && <NavExpandToggle open={open} onToggle={onOpen} />}
       </div>
 
       {!collapsed && open && item.children && (
@@ -202,8 +216,10 @@ export const AppShell: React.FC<AppShellProps> = ({
   mainClassName,
 }) => {
   const [internalCollapsed, setInternalCollapsed] = useState(false);
+  const [userOpenGroup, setUserOpenGroup] = useState<string | null>(null);
   const isControlled = controlledCollapsed !== undefined;
   const collapsed = isControlled ? controlledCollapsed : internalCollapsed;
+  const openGroup = userOpenGroup ?? groupWithActiveItem(navItems);
 
   const toggle = () => {
     const next = !collapsed;
@@ -257,9 +273,15 @@ export const AppShell: React.FC<AppShellProps> = ({
       >
         {navItems.map((item, i) =>
           item.children?.length ? (
-            <NavGroup key={i} item={item} collapsed={collapsed} />
+            <NavGroup
+              key={item.label}
+              item={item}
+              collapsed={collapsed}
+              open={openGroup === item.label}
+              onOpen={() => setUserOpenGroup(item.label)}
+            />
           ) : (
-            <NavLink key={i} item={item} collapsed={collapsed} />
+            <NavLink key={item.label || i} item={item} collapsed={collapsed} />
           ),
         )}
       </nav>
