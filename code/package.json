@@ -26,7 +26,7 @@
   ],
   "scripts": {
     "build:css": "tailwindcss -i src/styles/components.css -o dist/index.css --minify && node scripts/build-theme.cjs && tailwindcss -i src/motion/keyframes.css -o dist/motion.css --minify",
-    "build": "tsup && npm run build:css",
+    "build": "tsup && node scripts/stamp-use-client.cjs && npm run build:css",
     "dev": "tsup --watch",
     "lint": "eslint src --ext .ts,.tsx",
     "test": "vitest run",

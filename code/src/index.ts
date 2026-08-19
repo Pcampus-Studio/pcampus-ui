@@ -1,3 +1,5 @@
+'use client';
+
 // @pcampus/ui — barrel export
 // Tokens
 export * as tokens from './tokens';
