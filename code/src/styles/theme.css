@@ -22,6 +22,7 @@
   --color-canvas:          var(--pcampus-color-surface);
   --color-canvas-soft:     var(--pcampus-color-surface-subtle);
   --color-surface-card:    var(--pcampus-color-surface-card);
+  --color-overlay:         var(--pcampus-color-overlay);
   --color-hairline:        var(--pcampus-color-border);
   --color-hairline-strong: var(--pcampus-color-border-strong);
   --color-success:         var(--pcampus-color-success);
@@ -43,6 +44,7 @@
   --color-pcampus-success:         var(--pcampus-color-success);
   --color-pcampus-error:           var(--pcampus-color-error);
   --color-pcampus-warning:         var(--pcampus-color-warning);
+  --color-pcampus-overlay:         var(--pcampus-color-overlay);
 
   /* ─── Typography ──────────────────────────── */
   --font-sans:             var(--pcampus-font-sans);
