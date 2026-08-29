@@ -55,4 +55,21 @@ describe('Modal', () => {
     await userEvent.keyboard('{Escape}');
     expect(onClose).toHaveBeenCalledOnce();
   });
+
+  it('focuses the first field, not the close button', async () => {
+    const { rerender } = render(
+      <Modal open onClose={() => {}} title="Rename">
+        <input aria-label="Name" defaultValue="Storefront" />
+      </Modal>
+    );
+    const field = screen.getByLabelText('Name');
+    expect(field).toHaveFocus();
+
+    rerender(
+      <Modal open onClose={() => {}} title="Rename">
+        <input aria-label="Name" defaultValue="Storefront 2" />
+      </Modal>
+    );
+    expect(field).toHaveFocus();
+  });
 });

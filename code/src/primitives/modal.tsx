@@ -24,6 +24,11 @@ const sizeClass = {
   full: 'max-w-full h-full rounded-none',
 } as const;
 
+const FOCUSABLE =
+  'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+const FIRST_FIELD =
+  'input:not([type="hidden"]):not([disabled]), textarea:not([disabled]), select:not([disabled])';
+
 export const Modal: React.FC<ModalProps> = ({
   open,
   onClose,
@@ -36,8 +41,11 @@ export const Modal: React.FC<ModalProps> = ({
   className,
 }) => {
   const panelRef = useRef<HTMLDivElement>(null);
+  const onCloseRef = useRef(onClose);
   const [mounted, setMounted] = useState(false);
   const titleId = `modal-title-${Math.random().toString(36).slice(2, 7)}`;
+
+  onCloseRef.current = onClose;
 
   useEffect(() => {
     setMounted(true);
@@ -47,15 +55,20 @@ export const Modal: React.FC<ModalProps> = ({
     if (!open) return;
 
     const prevFocus = document.activeElement as HTMLElement | null;
+    const panel = panelRef.current;
 
-    const focusable = panelRef.current?.querySelectorAll<HTMLElement>(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    );
-    focusable?.[0]?.focus();
+    const queryFocusable = () => panel?.querySelectorAll<HTMLElement>(FOCUSABLE);
+
+    const field = panel?.querySelector<HTMLElement>(FIRST_FIELD);
+    (field ?? queryFocusable()?.[0])?.focus();
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') { onClose(); return; }
+      if (e.key === 'Escape') {
+        onCloseRef.current();
+        return;
+      }
       if (e.key !== 'Tab') return;
+      const focusable = queryFocusable();
       if (!focusable || focusable.length === 0) return;
 
       const first = focusable[0];
@@ -74,7 +87,7 @@ export const Modal: React.FC<ModalProps> = ({
       document.removeEventListener('keydown', handleKeyDown);
       prevFocus?.focus();
     };
-  }, [open, onClose]);
+  }, [open, mounted]);
 
   if (!open || !mounted || typeof document === 'undefined') return null;
 
