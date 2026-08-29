@@ -1,6 +1,6 @@
 import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Modal } from '../src/primitives/modal';
 
@@ -63,7 +63,7 @@ describe('Modal', () => {
       </Modal>
     );
     const field = screen.getByLabelText('Name');
-    expect(field).toHaveFocus();
+    await waitFor(() => expect(field).toHaveFocus());
 
     rerender(
       <Modal open onClose={() => {}} title="Rename">
@@ -71,5 +71,28 @@ describe('Modal', () => {
       </Modal>
     );
     expect(field).toHaveFocus();
+  });
+
+  it('keeps field focus while typing', async () => {
+    const user = userEvent.setup();
+    function Harness() {
+      const [name, setName] = React.useState('');
+      return (
+        <Modal open onClose={() => {}} title="Create application">
+          <input
+            aria-label="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </Modal>
+      );
+    }
+    render(<Harness />);
+    const field = screen.getByLabelText('Name');
+    await waitFor(() => expect(field).toHaveFocus());
+    await user.type(field, 'My app');
+    expect(field).toHaveValue('My app');
+    expect(field).toHaveFocus();
+    expect(screen.getByLabelText('Close modal')).not.toHaveFocus();
   });
 });

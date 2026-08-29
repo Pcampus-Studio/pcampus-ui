@@ -53,6 +53,38 @@ describe('page patterns', () => {
     expect(screen.getByText('Two').closest('li')).toHaveAttribute('aria-current', 'step');
   });
 
+  it('Stepper calls onStepClick with the step id', async () => {
+    const user = userEvent.setup();
+    const onStepClick = vi.fn();
+    render(
+      <Stepper
+        current={1}
+        onStepClick={onStepClick}
+        steps={[
+          { id: 'a', label: 'One' },
+          { id: 'b', label: 'Two' },
+        ]}
+      />
+    );
+    await user.click(screen.getByRole('button', { name: 'One' }));
+    expect(onStepClick).toHaveBeenCalledWith('a');
+  });
+
+  it('Stepper does not click a disabled step', () => {
+    const onStepClick = vi.fn();
+    render(
+      <Stepper
+        onStepClick={onStepClick}
+        steps={[
+          { id: 'a', label: 'One' },
+          { id: 'b', label: 'Two', disabled: true },
+        ]}
+      />
+    );
+    expect(screen.queryByRole('button', { name: 'Two' })).not.toBeInTheDocument();
+    expect(screen.getByText('Two').closest('[aria-disabled="true"]')).toBeTruthy();
+  });
+
   it('Timeline renders events', () => {
     render(
       <Timeline

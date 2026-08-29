@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { clsx } from 'clsx';
 
@@ -43,7 +43,7 @@ export const Modal: React.FC<ModalProps> = ({
   const panelRef = useRef<HTMLDivElement>(null);
   const onCloseRef = useRef(onClose);
   const [mounted, setMounted] = useState(false);
-  const titleId = `modal-title-${Math.random().toString(36).slice(2, 7)}`;
+  const titleId = useId();
 
   onCloseRef.current = onClose;
 
@@ -55,12 +55,29 @@ export const Modal: React.FC<ModalProps> = ({
     if (!open) return;
 
     const prevFocus = document.activeElement as HTMLElement | null;
-    const panel = panelRef.current;
 
-    const queryFocusable = () => panel?.querySelectorAll<HTMLElement>(FOCUSABLE);
+    const queryFocusable = () => {
+      const nodes = panelRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE);
+      if (!nodes) return [] as HTMLElement[];
+      return Array.from(nodes).filter((el) => {
+        if (el.getAttribute('aria-hidden') === 'true') return false;
+        if ((el as HTMLButtonElement | HTMLInputElement).disabled) return false;
+        return true;
+      });
+    };
 
-    const field = panel?.querySelector<HTMLElement>(FIRST_FIELD);
-    (field ?? queryFocusable()?.[0])?.focus();
+    const focusFirstField = () => {
+      const panel = panelRef.current;
+      if (!panel) return;
+      const active = document.activeElement;
+      if (active instanceof HTMLElement && panel.contains(active) && active.matches(FIRST_FIELD)) {
+        return;
+      }
+      const field = panel.querySelector<HTMLElement>(FIRST_FIELD);
+      (field ?? queryFocusable()[0])?.focus();
+    };
+
+    const raf = requestAnimationFrame(focusFirstField);
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -69,7 +86,7 @@ export const Modal: React.FC<ModalProps> = ({
       }
       if (e.key !== 'Tab') return;
       const focusable = queryFocusable();
-      if (!focusable || focusable.length === 0) return;
+      if (focusable.length === 0) return;
 
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
@@ -84,6 +101,7 @@ export const Modal: React.FC<ModalProps> = ({
     document.addEventListener('keydown', handleKeyDown);
 
     return () => {
+      cancelAnimationFrame(raf);
       document.removeEventListener('keydown', handleKeyDown);
       prevFocus?.focus();
     };
@@ -103,36 +121,27 @@ export const Modal: React.FC<ModalProps> = ({
         aria-labelledby={title ? titleId : undefined}
         onClick={(e) => e.stopPropagation()}
         className={clsx(
-          'bg-pcampus-canvas rounded-pcampus-lg shadow-lg w-full max-h-[90vh] flex flex-col animate-pcampus-slide-up font-pcampus-sans border border-pcampus-hairline',
+          'relative bg-pcampus-canvas rounded-pcampus-lg shadow-lg w-full max-h-[90vh] flex flex-col animate-pcampus-slide-up font-pcampus-sans border border-pcampus-hairline',
           sizeClass[size],
           className
         )}
       >
         {/* Header */}
         {(title || description) && (
-          <div className="p-6 border-b border-pcampus-hairline flex justify-between items-start gap-4">
-            <div>
-              {title && (
-                <h2
-                  id={titleId}
-                  className="text-xl font-semibold text-pcampus-ink m-0"
-                >
-                  {title}
-                </h2>
-              )}
-              {description && (
-                <p className="text-base text-pcampus-body mt-1 mb-0">
-                  {description}
-                </p>
-              )}
-            </div>
-            <button
-              onClick={onClose}
-              aria-label="Close modal"
-              className="bg-none border-none cursor-pointer p-1 text-pcampus-muted text-xl leading-none shrink-0 hover:text-pcampus-ink transition-colors"
-            >
-              ×
-            </button>
+          <div className="p-6 pr-12 border-b border-pcampus-hairline">
+            {title && (
+              <h2
+                id={titleId}
+                className="text-xl font-semibold text-pcampus-ink m-0"
+              >
+                {title}
+              </h2>
+            )}
+            {description && (
+              <p className="text-base text-pcampus-body mt-1 mb-0">
+                {description}
+              </p>
+            )}
           </div>
         )}
         {/* Body */}
@@ -145,6 +154,14 @@ export const Modal: React.FC<ModalProps> = ({
             {footer}
           </div>
         )}
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close modal"
+          className="absolute top-6 right-6 z-[1] bg-none border-none cursor-pointer p-1 text-pcampus-muted text-xl leading-none hover:text-pcampus-ink transition-colors"
+        >
+          ×
+        </button>
       </div>
     </div>,
     document.body
