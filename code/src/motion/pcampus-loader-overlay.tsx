@@ -18,7 +18,7 @@ export const PcampusLoaderOverlay = React.forwardRef<HTMLDivElement, PcampusLoad
     {
       cover = 'contain',
       size = 120,
-      color = 'var(--pcampus-color-text)',
+      color = 'currentColor',
       className,
       ...rest
     },
@@ -27,7 +27,7 @@ export const PcampusLoaderOverlay = React.forwardRef<HTMLDivElement, PcampusLoad
     <div
       ref={ref}
       className={clsx(
-        'flex items-center justify-center bg-[var(--pcampus-color-overlay)]',
+        'flex items-center justify-center text-pcampus-ink bg-[var(--pcampus-color-overlay)]',
         cover === 'viewport'
           ? 'fixed inset-0 z-[var(--pcampus-z-overlay)]'
           : 'absolute inset-0 z-[var(--pcampus-z-overlay)]',

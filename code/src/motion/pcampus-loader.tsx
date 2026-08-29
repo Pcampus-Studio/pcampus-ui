@@ -76,6 +76,16 @@ function buildGeometry(): { meta: Stroke[]; total: number } {
 
 const GEO = buildGeometry();
 
+/** Canvas 2D rejects `var(--*)`. Resolve against a live element first. */
+function resolveCanvasColor(specified: string, host: HTMLElement): string {
+  const probe = document.createElement('span');
+  probe.style.color = specified;
+  host.appendChild(probe);
+  const resolved = getComputedStyle(probe).color;
+  probe.remove();
+  return resolved && resolved !== 'rgba(0, 0, 0, 0)' ? resolved : '#ffffff';
+}
+
 /**
  * Pcampus brand loader — draws the 4-node mark as a line, then a bright band
  * sweeps diagonally across it (no glow). Loops. Respects reduced-motion.
@@ -94,6 +104,8 @@ export const PcampusLoader = React.forwardRef<HTMLDivElement, PcampusLoaderProps
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
+      const host = canvas.parentElement ?? canvas;
+      const stroke = resolveCanvasColor(color, host);
 
       const dpr = Math.min(typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1, 2);
       canvas.width = Math.round(size * dpr);
@@ -126,16 +138,18 @@ export const PcampusLoader = React.forwardRef<HTMLDivElement, PcampusLoaderProps
         const g = ctx.createLinearGradient(-125, -135, 135, 125);
         const w = 0.12;
         const clamp = (v: number) => Math.max(0, Math.min(1, v));
-        let a = 0;
+        let a = -1;
         const stop = (o: number, c: string) => {
-          a = Math.max(a, clamp(o));
+          const next = clamp(o);
+          if (next <= a) return;
+          a = next;
           g.addColorStop(a, c);
         };
         stop(0, 'transparent');
         stop(pos - w, 'transparent');
-        stop(pos, color);
+        stop(pos, stroke);
         stop(pos + w, 'transparent');
-        stop(1, 'transparent');
+        if (a < 1) stop(1, 'transparent');
         return g;
       };
 
@@ -153,7 +167,7 @@ export const PcampusLoader = React.forwardRef<HTMLDivElement, PcampusLoaderProps
         for (const m of GEO.meta) {
           if (remaining <= 0) break;
           const t = buildPath(m, Math.min(remaining, m.len));
-          ctx.strokeStyle = color;
+          ctx.strokeStyle = stroke;
           ctx.globalAlpha = 0.55; // dim line is the default
           ctx.lineWidth = 2.2;
           ctx.stroke();
@@ -175,7 +189,7 @@ export const PcampusLoader = React.forwardRef<HTMLDivElement, PcampusLoaderProps
 
         if (tip) {
           ctx.beginPath();
-          ctx.fillStyle = color;
+          ctx.fillStyle = stroke;
           ctx.arc(tip[0], tip[1], 2.2, 0, TAU);
           ctx.fill();
         }
@@ -191,14 +205,19 @@ export const PcampusLoader = React.forwardRef<HTMLDivElement, PcampusLoaderProps
       let start = performance.now();
       let raf = 0;
       const loop = (now: number) => {
-        const el = now - start;
-        if (el <= drawMs) {
-          render(Math.min(1, el / drawMs), null);
-        } else if (el < drawMs + hold) {
-          const s = ((el - drawMs) % shineMs) / shineMs;
-          render(1, -0.15 + 1.3 * s);
-        } else {
-          start = now;
+        try {
+          const el = now - start;
+          if (el <= drawMs) {
+            render(Math.min(1, el / drawMs), null);
+          } else if (el < drawMs + hold) {
+            const s = ((el - drawMs) % shineMs) / shineMs;
+            render(1, -0.15 + 1.3 * s);
+          } else {
+            start = now;
+          }
+        } catch {
+          render(1, null);
+          return;
         }
         raf = requestAnimationFrame(loop);
       };
