@@ -53,23 +53,26 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Full-area loader veil — classes live here so consumers do not depend on Tailwind scanning dist JS */
+/* Full-area loader veil — classes live here so consumers do not depend on Tailwind scanning dist JS.
+   Fallbacks keep it opaque + legible even if the app hasn't wired the token stylesheet. */
 .pcampus-loader-overlay {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--pcampus-color-text);
-  background-color: var(--pcampus-color-overlay);
+  color: var(--pcampus-color-text, #e7ebf5);
+  background-color: var(--pcampus-color-overlay, rgba(10, 14, 26, 0.92));
 }
 
 .pcampus-loader-overlay--contain {
   position: absolute;
   inset: 0;
-  z-index: var(--pcampus-z-overlay);
+  z-index: var(--pcampus-z-overlay, 20);
 }
 
+/* Full-screen loading screen — solid backdrop so page content never bleeds through. */
 .pcampus-loader-overlay--viewport {
   position: fixed;
   inset: 0;
-  z-index: var(--pcampus-z-modal);
+  z-index: var(--pcampus-z-modal, 30);
+  background-color: var(--pcampus-color-surface, #0a0e1a);
 }

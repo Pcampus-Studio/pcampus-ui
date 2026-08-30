@@ -170,8 +170,8 @@ export const PcampusLoader = React.forwardRef<HTMLDivElement, PcampusLoaderProps
           if (remaining <= 0) break;
           const t = buildPath(m, Math.min(remaining, m.len));
           ctx.strokeStyle = stroke;
-          ctx.globalAlpha = 0.55; // dim line is the default
-          ctx.lineWidth = 2.2;
+          ctx.globalAlpha = 0.7; // dim line is the default
+          ctx.lineWidth = 6; // design-space units (≈2px core once scaled to size 120)
           ctx.stroke();
           ctx.globalAlpha = 1;
           if (t) tip = t;
@@ -181,7 +181,7 @@ export const PcampusLoader = React.forwardRef<HTMLDivElement, PcampusLoaderProps
         if (shinePos !== null) {
           ctx.globalCompositeOperation = 'lighter';
           ctx.strokeStyle = shineGradient(shinePos);
-          ctx.lineWidth = 2.6;
+          ctx.lineWidth = 7.5;
           for (const m of GEO.meta) {
             buildPath(m, m.len);
             ctx.stroke();
@@ -192,7 +192,7 @@ export const PcampusLoader = React.forwardRef<HTMLDivElement, PcampusLoaderProps
         if (tip) {
           ctx.beginPath();
           ctx.fillStyle = stroke;
-          ctx.arc(tip[0], tip[1], 2.2, 0, TAU);
+          ctx.arc(tip[0], tip[1], 3.6, 0, TAU);
           ctx.fill();
         }
         ctx.restore();

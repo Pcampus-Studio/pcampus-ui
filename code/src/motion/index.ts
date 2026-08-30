@@ -24,5 +24,5 @@ export const transition = {
 } as const;
 
 export * from './hooks/use-motion-preference';
-export * from './pcampus-loader';
+export { PcampusLoader, type PcampusLoaderProps } from './pcampus-loader';
 export * from './pcampus-loader-overlay';
