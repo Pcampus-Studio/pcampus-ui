@@ -238,7 +238,7 @@ export const AppShell: React.FC<AppShellProps> = ({
       className={clsx(
         // Lock shell to the viewport so nav/main scroll independently
         // (min-h-screen alone lets the grid grow with nav content → whole page scrolls).
-        'grid h-dvh max-h-dvh overflow-hidden font-pcampus-sans bg-pcampus-canvas transition-[grid-template-columns] duration-panel ease-default',
+        'pcampus-shell-atmosphere grid h-dvh max-h-dvh overflow-hidden font-pcampus-sans transition-[grid-template-columns] duration-panel ease-default',
         className,
       )}
     >
@@ -289,7 +289,7 @@ export const AppShell: React.FC<AppShellProps> = ({
       <main
         className={clsx(
           'min-h-0',
-          mainClassName ?? 'overflow-y-auto p-8 bg-pcampus-canvas-soft',
+          mainClassName ?? 'pcampus-shell-main w-full min-w-0 overflow-y-auto p-6',
         )}
       >
         {children}

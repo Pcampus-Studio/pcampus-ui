@@ -80,7 +80,7 @@
   --pcampus-space-component-padding: var(--pcampus-space-6);
   --pcampus-space-card-padding:      var(--pcampus-space-5);
   --pcampus-space-panel-padding:     var(--pcampus-space-7);
-  --pcampus-space-page-margin:       var(--pcampus-space-9);
+  --pcampus-space-page-margin:       var(--pcampus-space-8);
 
   /* ═══ BORDER / SHAPE ════════════════════════════════════════════ */
   --pcampus-border-hairline: 1px;
@@ -114,7 +114,8 @@
   --pcampus-layout-nav-height:       48px;
   --pcampus-layout-sidebar-width:   240px;
   --pcampus-layout-sidebar-collapsed: 64px;
-  --pcampus-layout-content-max:    1280px;
+  --pcampus-layout-page-padding:  var(--pcampus-space-8);
+  --pcampus-layout-content-max:    none;
   --pcampus-layout-panel-width:     320px;
 
   /* ═══ Z-INDEX ═══════════════════════════════════════════════════ */

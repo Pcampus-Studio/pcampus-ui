@@ -20,6 +20,7 @@
 |G-012 | Motion system — tokens, keyframes, transitions, hooks  | done | SHIP | G-008, G-009 |
 |[G-016](goals/G-016.md) | Data/app-screen tier — DataTable, lucide icons, page patterns  | **review** | REVIEW ● | ADR-0002 |
 |[G-017](goals/G-017.md) | Accordion primitive (collapsible list)  | **review** | REVIEW ● | G-016 |
+|[G-018](goals/G-018.md) | AppShell work-surface default — compact inset, atmosphere, dark  | **review** | REVIEW ● | G-006 |
 
 > **In review:** G-016 (data tier) + G-017 (Accordion) — see [ADR-0002](../05-decisions/0002-datatable-lucide-page-patterns.md). Unblocks Mail + Storage screen redesign.
 
@@ -69,6 +70,7 @@ Alias in goal Plan tables: **Pcampus phase** = collaboration phase (DEFINE–SHI
 |G-010 | done | SHIP | G-008 | [goals/_archived/G-010.md](goals/_archived/G-010.md) |
 |G-011 | done | SHIP | G-008, G-009 | [goals/_archived/G-011.md](goals/_archived/G-011.md) |
 |G-012 | done | SHIP | G-008, G-009 | [goals/_archived/G-012.md](goals/_archived/G-012.md) |
+|G-018 | review | REVIEW | G-006 | [goals/G-018.md](goals/G-018.md) |
 
 ## Archived
 

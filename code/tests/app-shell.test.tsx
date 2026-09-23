@@ -174,6 +174,18 @@ describe('AppShell', () => {
     expect(screen.getByRole('group', { name: 'Storage sub-navigation' })).toBeInTheDocument();
   });
 
+  it('defaults main to a compact full-width work surface', () => {
+    render(
+      <AppShell serviceName="Test" navItems={nav}>
+        <p>Content</p>
+      </AppShell>,
+    );
+    const main = screen.getByRole('main');
+    expect(main).toHaveClass('pcampus-shell-main', 'w-full', 'min-w-0', 'p-6');
+    expect(main).not.toHaveClass('max-w-3xl', 'max-w-5xl');
+    expect(main.parentElement).toHaveClass('pcampus-shell-atmosphere');
+  });
+
   it('applies mainClassName to main content', () => {
     render(
       <AppShell serviceName="Test" navItems={nav} mainClassName="overflow-hidden custom-main">

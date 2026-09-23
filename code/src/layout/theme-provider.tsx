@@ -7,7 +7,7 @@ export interface ThemeProviderProps {
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({
-  theme = 'system',
+  theme = 'dark',
   tokenOverrides,
   children,
 }) => {

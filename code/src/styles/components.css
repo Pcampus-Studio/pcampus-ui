@@ -93,3 +93,30 @@
 .pc-dropzone__input {
   display: none;
 }
+
+/* Default AppShell work surface — p-4 inset, no article max-width */
+.pcampus-shell-main {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: var(--pcampus-layout-content-max);
+  padding: var(--pcampus-layout-page-padding);
+  overflow-y: auto;
+  background: transparent;
+}
+
+/* Default AppShell canvas — tokens only */
+.pcampus-shell-atmosphere {
+  background-color: var(--pcampus-color-surface);
+  background-image:
+    radial-gradient(
+      ellipse 90% 70% at 0% 0%,
+      color-mix(in srgb, var(--pcampus-color-primary) 28%, transparent),
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse 75% 55% at 100% 100%,
+      color-mix(in srgb, var(--pcampus-color-accent) 18%, transparent),
+      transparent 52%
+    );
+}
