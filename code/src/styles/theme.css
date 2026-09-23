@@ -86,7 +86,7 @@
   --animate-spin:        pcampus-spin 1s linear infinite;
 }
 
-/* Default AppShell work surface — p-4 inset, no article max-width */
+/* Default AppShell work surface — 32px inset, full column, no article max-width */
 .pcampus-shell-main {
   box-sizing: border-box;
   width: 100%;

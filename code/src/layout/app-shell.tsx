@@ -288,11 +288,27 @@ export const AppShell: React.FC<AppShellProps> = ({
 
       <main
         className={clsx(
-          'min-h-0',
-          mainClassName ?? 'pcampus-shell-main w-full min-w-0 overflow-y-auto p-6',
+          'min-h-0 w-full min-w-0 overflow-y-auto',
+          mainClassName,
         )}
       >
-        {children}
+        {mainClassName ? (
+          children
+        ) : (
+          <div
+            className="pcampus-shell-main"
+            data-pcampus-shell-main=""
+            style={{
+              boxSizing: 'border-box',
+              width: '100%',
+              minWidth: 0,
+              maxWidth: 'var(--pcampus-layout-content-max, none)',
+              padding: 'var(--pcampus-layout-page-padding, 32px)',
+            }}
+          >
+            {children}
+          </div>
+        )}
       </main>
     </div>
   );

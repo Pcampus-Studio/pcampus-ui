@@ -1,6 +1,6 @@
 {
   "name": "@pcampus-studio/ui",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Shared component library and design system for the Pcampus ecosystem",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",

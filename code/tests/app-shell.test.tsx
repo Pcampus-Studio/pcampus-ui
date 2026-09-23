@@ -181,7 +181,10 @@ describe('AppShell', () => {
       </AppShell>,
     );
     const main = screen.getByRole('main');
-    expect(main).toHaveClass('pcampus-shell-main', 'w-full', 'min-w-0', 'p-6');
+    const surface = main.querySelector('[data-pcampus-shell-main]');
+    expect(surface).toBeTruthy();
+    expect(surface).toHaveClass('pcampus-shell-main');
+    expect(surface).toHaveStyle({ padding: 'var(--pcampus-layout-page-padding, 32px)' });
     expect(main).not.toHaveClass('max-w-3xl', 'max-w-5xl');
     expect(main.parentElement).toHaveClass('pcampus-shell-atmosphere');
   });
