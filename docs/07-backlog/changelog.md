@@ -14,6 +14,8 @@ Append a row after significant agent work or review.
 | 2026-07-04 | G-013 | Close goal | ThemeToggle primitive, motion dependency, version 1.2.0 build and publish dry-run | human | approve |
 | 2026-07-04 | G-014 | Close goal | Raw `dist/theme.css` build, surface-card/warning tokens, and package 1.3.0 publish verification | human | approve |
 | 2026-07-04 | G-015 | Close goal | Added prefixed theme color mappings, regression test, package 1.3.1 publish, and consumer smoke verification | human | approve |
+| 2026-10-13 | G-019 | human approved DatePicker / DateRangePicker | primitives + tests; package 1.7.0 not published | human | approved |
+| 2026-10-13 | G-019 | human closed goal | `done` → `_archived/G-019.md` | human | done |
 | {YYYY-MM-DD} | — | Agent OS scaffold | governance layer docs | — | — |
 
 ## When to log

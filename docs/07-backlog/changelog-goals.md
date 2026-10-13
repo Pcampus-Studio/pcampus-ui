@@ -17,3 +17,4 @@
 | G-013 | 2026-07-04 | — | Added ThemeToggle primitive, motion peerDependency, package version 1.2.0 build, and publish dry-run |
 | G-014 | 2026-07-04 | — | Fixed `dist/theme.css` to ship raw tokens plus `@theme inline`, verified build output, and confirmed package version 1.3.0 published |
 | G-015 | 2026-07-04 | — | Added prefixed `--color-pcampus-*` theme mappings, regression test coverage, consumer smoke verification, and published 1.3.1 |
+| G-019 | 2026-10-13 | — | DatePicker + DateRangePicker; locale via Intl; package 1.7.0 not published |

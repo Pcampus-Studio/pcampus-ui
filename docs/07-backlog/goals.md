@@ -21,6 +21,7 @@
 |[G-016](goals/G-016.md) | Data/app-screen tier — DataTable, lucide icons, page patterns  | **review** | REVIEW ● | ADR-0002 |
 |[G-017](goals/G-017.md) | Accordion primitive (collapsible list)  | **review** | REVIEW ● | G-016 |
 |[G-018](goals/G-018.md) | AppShell work-surface default — compact inset, atmosphere, dark  | **review** | REVIEW ● | G-006 |
+|G-019 | DatePicker and DateRangePicker  | done | SHIP | G-004, G-005 |
 
 > **In review:** G-016 (data tier) + G-017 (Accordion) — see [ADR-0002](../05-decisions/0002-datatable-lucide-page-patterns.md). Unblocks Mail + Storage screen redesign.
 
@@ -71,6 +72,7 @@ Alias in goal Plan tables: **Pcampus phase** = collaboration phase (DEFINE–SHI
 |G-011 | done | SHIP | G-008, G-009 | [goals/_archived/G-011.md](goals/_archived/G-011.md) |
 |G-012 | done | SHIP | G-008, G-009 | [goals/_archived/G-012.md](goals/_archived/G-012.md) |
 |G-018 | review | REVIEW | G-006 | [goals/G-018.md](goals/G-018.md) |
+|G-019 | done | SHIP | G-004, G-005 | [goals/_archived/G-019.md](goals/_archived/G-019.md) |
 
 ## Archived
 
@@ -85,6 +87,7 @@ Completed goals: [`goals/_archived/`](goals/_archived/) · log: [changelog-goals
 | G-013 | ThemeToggle component + motion peerDependency | 2026-07-04 | [goals/_archived/G-013.md](goals/_archived/G-013.md) |
 | G-014 | Fix dist/theme.css — raw CSS output, add surface-card + warning tokens | 2026-07-04 | [goals/_archived/G-014.md](goals/_archived/G-014.md) |
 | G-015 | Fix @theme inline — prefixed utility mappings so components style | 2026-07-04 | [goals/_archived/G-015.md](goals/_archived/G-015.md) |
+| G-019 | DatePicker and DateRangePicker | 2026-10-13 | [goals/_archived/G-019.md](goals/_archived/G-019.md) |
 
 ## Create a goal
 

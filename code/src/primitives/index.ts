@@ -36,6 +36,18 @@ export type { ToggleProps } from './toggle';
 export { FormField } from './form-field';
 export type { FormFieldProps } from './form-field';
 
+// G-019: DatePicker
+export { DatePicker, DateRangePicker } from './date-picker';
+export type { DatePickerProps, DateRangePickerProps, DateRangeValue } from './date-picker';
+export {
+  parseIsoDate,
+  formatIsoDate,
+  formatIsoDateLabel,
+  firstWeekdayForLocale,
+  buildMonthGrid,
+} from './date-calendar';
+export type { IsoDate } from './date-calendar';
+
 // G-005: Overlays
 export { Modal } from './modal';
 export type { ModalProps } from './modal';
